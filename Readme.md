@@ -65,7 +65,7 @@ cp .env.example .env
 # Generate application key
 php artisan key:generate
 
-# Configure your database in .env
+# Create db with name => DB_DATABASE in .env file,
 # Handle database configuration as on your local setup
 
 # DB_CONNECTION=mysql
