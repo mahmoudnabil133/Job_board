@@ -1,0 +1,24 @@
+# Laravel (backend)
+/vendor
+/node_modules
+.env
+.phpunit.result.cache
+/storage/*.key
+/public/storage
+Homestead.json
+Homestead.yaml
+.env.backup
+.phpunit.result.cache
+
+# React (inside web/)
+/web/node_modules
+/web/build
+/web/.env
+/web/.env.local
+
+# Common
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/

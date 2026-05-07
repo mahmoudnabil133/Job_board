@@ -66,6 +66,11 @@ cp .env.example .env
 php artisan key:generate
 
 # Configure your database in .env
+# Handle database configuration as on your local setup
+
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
 # DB_DATABASE=job_board
 # DB_USERNAME=root
 # DB_PASSWORD=
