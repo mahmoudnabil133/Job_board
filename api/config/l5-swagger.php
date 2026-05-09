@@ -5,7 +5,12 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'HireITIan API',
+                'description' => 'Complete API documentation for HireITIan job portal platform',
+                'version' => 'v1',
+                'x-logo' => [
+                    'url' => 'https://via.placeholder.com/190x90',
+                ],
             ],
 
             'routes' => [

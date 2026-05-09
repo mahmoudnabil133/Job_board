@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         'api' => [
             \App\Http\Middleware\ForceJsonResponse::class,
             \App\Http\Middleware\RequestLogger::class,
+            \App\Http\Middleware\AuthenticationLogger::class,
 
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
 
