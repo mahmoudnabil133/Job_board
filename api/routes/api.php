@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Candidate\CandidateProfileController;
+use App\Http\Controllers\Api\V1\Employer\CompanyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\AuthController;
@@ -22,7 +24,7 @@ Route::prefix('v1/auth')->middleware('auth:sanctum')->group(function () {
 });
 
 // Public routes - Job search
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::get('/jobs', [JobSearchController::class, 'index']);
     Route::get('/jobs/{slug}', [JobSearchController::class, 'show']);
 });
@@ -30,12 +32,26 @@ Route::prefix('v1')->group(function () {
 // Employer routes
 Route::prefix('v1/employer')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('jobs', EmployerJobController::class)->except(['show']);
+
+    Route::get('company', [CompanyController::class, 'show']);
+    Route::post('company', [CompanyController::class, 'store']);
+    Route::put('company', [CompanyController::class, 'update']);
+    Route::delete('company', [CompanyController::class, 'destroy']);
+
 });
+
+Route::prefix('v1/candidate')->middleware('auth:sanctum')->group(function () {
+    Route::get('profile', [CandidateProfileController::class, 'show']);
+    Route::post('profile', [CandidateProfileController::class, 'store']);
+    Route::put('profile', [CandidateProfileController::class, 'update']);
+    Route::delete('profile', [CandidateProfileController::class, 'destroy']);
+});
+
 
 // Admin routes
 // TODO: Uncomment when role middleware is fully implemented
-// Route::prefix('v1/admin')->middleware(['auth:sanctum', 'role:admin'])->group(function () {
-//     Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
-//     Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
-//     Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
-// });
+Route::prefix('v1/admin')->middleware(['auth:sanctum', \App\Http\Middleware\EnsureRole::class . ':admin'])->group(function () {
+    Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
+    Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
+    Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
+});
