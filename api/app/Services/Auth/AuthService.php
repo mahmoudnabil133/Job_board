@@ -21,6 +21,7 @@ class AuthService
         Log::info('auth.register_attempt', [
             'email' => $data['email'] ?? null,
             'name' => $data['name'] ?? null,
+            'data' => $data,
         ]);
 
         // Validate data
