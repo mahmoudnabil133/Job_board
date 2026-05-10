@@ -11,6 +11,7 @@ class Job extends Model
 
     protected $fillable = [
         'company_id',
+        'employer_id',
         'category_id',
         'title',
         'slug',
@@ -41,6 +42,16 @@ class Job extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function employer()
+    {
+        return $this->belongsTo(User::class, 'employer_id');
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'job_skill');
     }
 
     public function category()
