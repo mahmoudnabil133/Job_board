@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Repositories\Contracts\AuthRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 
-class AuthRepository implements AuthRepositoryInterface
+class AuthEloquentRepository implements AuthRepositoryInterface
 {
     public function create(array $data): User
     {
