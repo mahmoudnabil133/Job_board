@@ -2,46 +2,83 @@
 
 namespace App\Http\Controllers\Api\V1\Employer;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\Job\StoreJobRequest;
 use App\Http\Requests\Job\UpdateJobRequest;
 use App\Http\Resources\JobListResource;
 use App\Http\Resources\JobResource;
-use App\Services\JobService;
 use App\Models\Job;
-use App\Models\User;
+use App\Services\ApiResponseService;
+use App\Services\JobService;
+use Illuminate\Http\JsonResponse;
 
-
-class JobController extends Controller
+class JobController extends BaseController
 {
-    public function __construct(private  JobService $jobService){}
-    
-    public function index(){
-        $user = auth()->user(); // replace it with auth()->user() later
-        $jobs = Job::where('employer_id', $user->id)->with(['company', 'category', 'skills'])->latest()->paginate(10);
-        return JobListResource::collection($jobs);
-    }   
+    public function __construct(
+        ApiResponseService $response,
+        private JobService $jobService
+    ) {
+        parent::__construct($response);
+    }
 
-    public function store(StoreJobRequest $request){
-        $user = auth()->user(); // replace it with auth()->user() later
+    public function index(): JsonResponse
+    {
+        $user = auth()->user();
+        $jobs = Job::where('employer_id', $user->id)
+            ->with(['company', 'category', 'skills'])
+            ->latest()
+            ->paginate(10);
+
+        return $this->response->success(
+            JobListResource::collection($jobs),
+            'Jobs retrieved successfully',
+            200,
+            [
+                'total' => $jobs->total(),
+                'per_page' => $jobs->perPage(),
+                'current_page' => $jobs->currentPage(),
+                'last_page' => $jobs->lastPage(),
+            ]
+        );
+    }
+
+    public function store(StoreJobRequest $request): JsonResponse
+    {
+        $user = auth()->user();
         $job = $this->jobService->create($request->validated(), $user);
-        return new JobResource($job);
+
+        return $this->response->created(
+            new JobResource($job),
+            'Job created successfully'
+        );
     }
 
-    public function show(Job $job){
+    public function show(Job $job): JsonResponse
+    {
         $job->load(['company', 'category', 'skills', 'applicationQuestions']);
-        return new JobResource($job);
+
+        return $this->response->success(
+            new JobResource($job),
+            'Job retrieved successfully'
+        );
     }
 
-    public function update(UpdateJobRequest $request, Job $job){
-        $user = auth()->user(); // replace it with auth()->user() later
+    public function update(UpdateJobRequest $request, Job $job): JsonResponse
+    {
+        $user = auth()->user();
         $updatedJob = $this->jobService->update($job, $request->validated(), $user);
-        return new JobResource($updatedJob);
+
+        return $this->response->updated(
+            new JobResource($updatedJob),
+            'Job updated successfully'
+        );
     }
 
-    public function destroy(Job $job){
-        $user = auth()->user(); // replace it with auth()->user() later
+    public function destroy(Job $job): JsonResponse
+    {
+        $user = auth()->user();
         $this->jobService->delete($job, $user);
-        return response()->json(['message' => 'Job deleted successfully']);
+
+        return $this->response->deleted('Job deleted successfully');
     }
 }
