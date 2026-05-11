@@ -7,8 +7,9 @@ use App\Models\Job;
 use App\Models\User;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Log;          
-use Str;// ✅ Add this
+use Illuminate\Support\Facades\Log;
+use Str;
+use Symfony\Component\HttpKernel\Exception\HttpException;// ✅ Add this
 
 class JobService
 {
@@ -44,7 +45,7 @@ class JobService
             throw new AuthorizationException('You are not authorized to update this job.');
         }
         if ($job->status === JobStatus::Approved) {
-            throw new Exception('Cannot edit an approved job. Reset to draft first.');
+            throw new HttpException(400, 'Cannot edit an approved job. Reset to draft first.');
         }
         if (isset($data['skills'])) {
             $job->skills()->sync($data['skills']);
@@ -79,7 +80,7 @@ class JobService
 
     public function approveJob(Job $job, User $admin){
         if ($job->status !== 'pending') {
-            throw new Exception('Only pending jobs can be approved.');
+            throw new HttpException(400, 'Only pending jobs can be approved.');
         }
         $job->update([
             'status' => JobStatus::Approved,
@@ -93,7 +94,7 @@ class JobService
 
     public function rejectJob(Job $job, User $admin){
         if ($job->status !== JobStatus::Pending->value) {
-            throw new Exception('Only pending jobs can be rejected.');
+            throw new HttpException(400, 'Only pending jobs can be rejected.');
         }
         $job->update([
             'status' => JobStatus::Rejected,
