@@ -32,7 +32,13 @@ class ApiResponseService{
             'data' => $data
         ], $code);
     }
-
+    public function loggedin(
+        mixed $data = null,
+        string $message = 'User logged in successfully',
+        array $meta = [],
+    )
+    {return $this->success($data, $message, 200, $meta);} 
+    
     public function created(
         mixed $data = null,
         string $message = 'Resource created successfully',
@@ -84,6 +90,13 @@ class ApiResponseService{
         array $errors = []
     ){
         return $this->error($message, 500, $errors);
+    }
+
+    public function invalidCredintials(
+        string $message = 'Invalid Credintials',
+        array $errors = []
+    ){
+        return $this->error($message, 401, $errors);
     }
 
 }
