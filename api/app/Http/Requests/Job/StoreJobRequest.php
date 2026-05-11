@@ -24,7 +24,7 @@ class StoreJobRequest extends FormRequest
     {
         return [
             'company_id' => 'required|exists:companies,id',
-            'category_id' => 'required|exists:job_categories,id',
+            'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'responsibilities' => 'nullable|string',

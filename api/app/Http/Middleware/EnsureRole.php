@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Exceptions\UnauthorizedException;
 
 class EnsureRole
 {
@@ -14,10 +15,15 @@ class EnsureRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!$request->user() || !$request->user()->hasRole($role)) {
-            throw new UnauthorizedException("You do not have the required role: {$role}");
+        // Check if user is authenticated
+        if (!$request->user()) {
+            throw new AuthenticationException('Unauthenticated. You must be authenticated to access this resource.');
+        }
+
+        if (!in_array($request->user()->role->value ?? $request->user()->role, $roles)) {
+            throw new AuthorizationException('Unauthorized. You do not have the required role.');
         }
 
         return $next($request);

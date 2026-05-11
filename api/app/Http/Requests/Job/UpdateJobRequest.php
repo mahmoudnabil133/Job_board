@@ -26,7 +26,7 @@ class UpdateJobRequest extends FormRequest
         return [
             // Company & Category
             'company_id' => 'sometimes|exists:companies,id',
-            'category_id' => 'sometimes|exists:job_categories,id',
+            'category_id' => 'sometimes|exists:categories,id',
 
             // Basic Job Info
             'title' => 'sometimes|string|max:255',

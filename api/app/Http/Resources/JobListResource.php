@@ -17,6 +17,7 @@ class JobListResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'employer_id' => $this->employer_id,
             'slug' => $this->slug,
             'location' => $this->location,
             'work_type' => $this->work_type,
@@ -25,7 +26,7 @@ class JobListResource extends JsonResource
             'salary_max' => $this->salary_max,
             'salary_currency' => $this->salary_currency,
             'application_deadline' => $this->application_deadline?->toDateString(),
-            'status' => $this->status->value,
+            'status' => $this->status,
             'created_at' => $this->created_at->toIso8601String(),
             'company' => [
                 'id' => $this->company->id,

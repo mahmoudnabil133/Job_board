@@ -243,6 +243,8 @@ class DatabaseSeeder extends Seeder
         $companies = Company::all();
         $categories = Category::all();
         $admin = User::where('role', 'admin')->first();
+        $employersList = User::where('role', 'employer')->get();  // ✅ Get all employers
+        $allSkills = Skill::all();
 
         $jobsData = [
             [
@@ -374,11 +376,23 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($jobsData as $index => $jobData) {
-            Job::create(array_merge($jobData, [
-                'company_id' => $companies[$index % count($companies)]->id,
+            $employer = $employersList[$index % count($employersList)];  // ✅ Assign employer
+            $company = Company::where('employer_id', $employer->id)->first();  // ✅ Get their company
+
+            $skillIds = $jobData['skill_ids'] ?? [];
+            unset($jobData['skill_ids']);  // Remove from array before creating job
+
+            $job = Job::create(array_merge($jobData, [
+                'employer_id' => $employer->id,                              // ✅ ADD THIS
+                'company_id' => $company->id,                                // ✅ Already there
                 'category_id' => $categories[$index % count($categories)]->id,
                 'approved_by' => $jobData['status'] === 'approved' ? $admin->id : null,
             ]));
+
+            // ✅ Sync skills
+            if (!empty($skillIds)) {
+                $job->skills()->sync($skillIds);
+            }
         }
 
         // ========== APPLICATIONS ==========
