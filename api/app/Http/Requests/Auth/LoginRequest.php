@@ -19,6 +19,15 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function prepareForValidation(): void
+    {
+        Log::info('LoginRequest - Before validation', [
+            'email' => $this->email,
+            'password' => $this->password
+        ]);
+            
+    }
+
     public function messages(): array
     {
         return [
