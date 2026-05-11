@@ -5,11 +5,12 @@ use App\Models\CandidatesProfile;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CandidateProfileService{
     public function create(array $data, User $user){
         if(isset($user->candidateProfile)){
-            throw new Exception('Candidate profile already exists for this user.');
+            throw new HttpException(400, 'Candidate profile already exists for this user.');
         }
         $profile = CandidatesProfile::create([
             ...$data,
