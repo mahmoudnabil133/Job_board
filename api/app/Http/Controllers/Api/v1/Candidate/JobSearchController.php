@@ -3,19 +3,25 @@
 namespace App\Http\Controllers\Api\V1\Candidate;
 
 use App\Enum\JobStatus;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\JobListResource;
 use App\Http\Resources\JobResource;
 use App\Models\Job;
+use App\Services\ApiResponseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class JobSearchController extends Controller
+class JobSearchController extends BaseController
 {
-    //query => title, location, work_type, employment_type, experience_level, category_id, salary_min, salary_max
-    public function index(Request $request)
+    public function __construct(ApiResponseService $response)
+    {
+        parent::__construct($response);
+    }
+
+    public function index(Request $request): JsonResponse
     {
         $jobs = Job::query()
-            ->where('status', JobStatus::Approved)   // only approved jobs
+            ->where('status', JobStatus::Approved)
             ->with(['company', 'category', 'skills'])
             ->when($request->q, fn($q, $search) => $q->where('title', 'like', "%{$search}%"))
             ->when($request->work_type, fn($q, $type) => $q->where('work_type', $type))
@@ -28,12 +34,26 @@ class JobSearchController extends Controller
             ->latest()
             ->paginate($request->per_page ?? 15);
 
-        return JobListResource::collection($jobs);
-    }
-    public function show(string $slug)
-    {
-        $job = Job::where('slug', $slug)->firstOrFail();
-        return new JobResource($job);
+        return $this->response->success(
+            JobListResource::collection($jobs),
+            'Jobs retrieved successfully',
+            200,
+            [
+                'total' => $jobs->total(),
+                'per_page' => $jobs->perPage(),
+                'current_page' => $jobs->currentPage(),
+                'last_page' => $jobs->lastPage(),
+            ]
+        );
     }
 
+    public function show(string $slug): JsonResponse
+    {
+        $job = Job::where('slug', $slug)->firstOrFail();
+
+        return $this->response->success(
+            new JobResource($job),
+            'Job retrieved successfully'
+        );
+    }
 }
