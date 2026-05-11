@@ -48,7 +48,7 @@ Content-Type: application/json
   "email": "john@example.com",
   "password": "securePassword123",
   "password_confirmation": "securePassword123",
-  "role": "candidate"  // or "employer", "admin"
+  "role": "candidate"  
 }
 
 Response (201):

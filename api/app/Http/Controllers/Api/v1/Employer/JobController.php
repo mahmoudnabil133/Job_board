@@ -8,22 +8,21 @@ use App\Http\Requests\Job\UpdateJobRequest;
 use App\Http\Resources\JobListResource;
 use App\Http\Resources\JobResource;
 use App\Models\Job;
-use App\Models\User;
+use App\Services\JobService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use JobService;
-
 class JobController extends Controller
 {
     public function __construct(private JobService $jobService){}
     
     public function index(){
-        $user = User::firstOrFail(); // replace it with auth()->user() later
+        $user = auth()->user();
         $jobs = Job::where('employer_id', $user->id)->with(['company', 'category', 'skills'])->latest()->paginate(10);
         return JobListResource::collection($jobs);
     }
 
     public function store(StoreJobRequest $request){
-        $user = User::firstOrFail(); // replace it with auth()->user() later
+        $user = auth()->user();
         $job = $this->jobService->create($request->validated(), $user);
         return new JobResource($job);
     }
@@ -34,14 +33,14 @@ class JobController extends Controller
     }
 
     public function update(UpdateJobRequest $request, Job $job){
-        $user = User::firstOrFail(); // replace it with auth()->user() later
+        $user = auth()->user();
         $updatedJob = $this->jobService->update($job, $request->validated(), $user);
         return new JobResource($updatedJob);
     }
 
     public function destroy(Job $job){
-        $user = User::firstOrFail(); // replace it with auth()->user() later
+        $user = auth()->user();
         $this->jobService->delete($job, $user);
-        return response()->json(['message' => 'Job deleted successfully']);
+        return $this->success(null, 'Job deleted successfully');
     }
 }

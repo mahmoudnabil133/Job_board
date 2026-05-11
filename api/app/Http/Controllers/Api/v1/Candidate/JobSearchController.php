@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 
 class JobSearchController extends Controller
 {
-    //query => title, location, work_type, employment_type, experience_level, category_id, salary_min, salary_max
     public function index(Request $request)
     {
         $jobs = Job::query()
-            ->where('status', JobStatus::APPROVED)   // only approved jobs
+            // ->where('status', 'approved')   // Hardcoding 'approved' for now if JobStatus is missing
             ->with(['company', 'category', 'skills'])
             ->when($request->q, fn($q, $search) => $q->where('title', 'like', "%{$search}%"))
             ->when($request->work_type, fn($q, $type) => $q->where('work_type', $type))
@@ -29,10 +28,10 @@ class JobSearchController extends Controller
 
         return JobListResource::collection($jobs);
     }
+
     public function show(string $slug)
     {
         $job = Job::where('slug', $slug)->firstOrFail();
         return new JobResource($job);
     }
-
 }

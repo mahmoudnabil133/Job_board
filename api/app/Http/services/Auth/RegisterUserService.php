@@ -4,7 +4,7 @@ namespace App\Services\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class AuthService
+class RegisterUserService
 {
     public function register(array $data)
     {
