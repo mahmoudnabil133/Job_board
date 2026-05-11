@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Services\NotificationService;
+
 
 class ApplicationService
 {
+    public function __construct(private NotificationService $notificationService) {}
 
-    // Add any application-related business logic here, e.g.:
     // - validate application data
+
     // - check if user has already applied to a job
     // - handle application submission, etc.
 
@@ -138,6 +141,9 @@ class ApplicationService
         if(in_array($application->application_status, ['accepted', 'rejected'])){
             throw new HttpException(400, 'You cannot update the status of an application that has already been reviewed');
         }
+
+        $application->loadMissing(['job', 'candidate']);
+
         $updatedData = [
             'application_status' => $status,
             'reviewed_at' => now(),
@@ -146,6 +152,31 @@ class ApplicationService
             $updatedData['employer_notes'] = $notes;
         }
         $application->update($updatedData);
+
+        // Notify candidate if application is accepted
+        if ($status === 'accepted') {
+            $this->notificationService->notify(
+                $application->candidate,
+                'Application Accepted!',
+                "Congratulations! Your application for '{$application->job->title}' has been accepted.",
+                'success'
+            );
+        } elseif ($status === 'shortlisted') {
+            $this->notificationService->notify(
+                $application->candidate,
+                'Application Shortlisted',
+                "Good news! You have been shortlisted for '{$application->job->title}'.",
+                'info'
+            );
+        } elseif ($status === 'rejected') {
+            $this->notificationService->notify(
+                $application->candidate,
+                'Application Update',
+                "We regret to inform you that your application for '{$application->job->title}' was not successful this time.",
+                'warning'
+            );
+        }
+
         Log::info('application.status_updated', [
             'application_id' => $application->id,
             'job_id' => $application->job_id,

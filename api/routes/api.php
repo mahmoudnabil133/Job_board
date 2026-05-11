@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\Employer\JobController as EmployerJobController;
 use App\Http\Controllers\Api\V1\Candidate\JobSearchController;
 use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
+use App\Http\Controllers\Api\V1\NotificationController;
+
 
 // Public routes for authentication
 Route::prefix('v1/auth')->group(function () {
@@ -33,6 +35,15 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // User / Profile
     Route::get('/user/me', [UserController::class, 'me'])->name('user.me');
     Route::post('/user/change-password', [UserController::class, 'changePassword'])->name('user.change-password');
+
+    // Notifications
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::patch('/{notification}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+    });
+
 
     // Employer routes
     Route::prefix('employer')->middleware('role:employer')->group(function () {
