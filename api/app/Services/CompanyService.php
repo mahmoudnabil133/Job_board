@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CompanyService
 {
@@ -14,7 +15,7 @@ class CompanyService
         // bug here , has employer->company always return true even if no company exists, because of the hasOne relationship, so we need to check if the company actually exists
 
         if($employer->company()->exists()){
-            throw new Exception('Employer already has a company profile.');
+            throw new HttpException(400, 'Employer already has a company profile.');
         }
         $company = Company::create([
             ...$data,
