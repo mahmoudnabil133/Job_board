@@ -17,7 +17,7 @@ class ApiResponseService{
         if (!empty($meta)){
             $response['meta'] = $meta;
         }
-        return response()->json($response, $code);
+        return response()->json($response, $code);  //response()->json(data, code) is a built-in laravel function
     }
     public function error(
         string $message = 'Error',
@@ -25,17 +25,12 @@ class ApiResponseService{
         mixed $errors = null,
         mixed $data = null,
     ){
-        $response = [
+        return response()->json([
             'status' => 'error',
             'message' => $message,
-        ];
-        if (!empty($errors)){
-            $response['errors'] = $errors;
-        }
-        if (!empty($data)){
-            $response['data'] = $data;
-        }
-        return response()->json($response, $code);
+            'errors' => $errors,
+            'data' => $data
+        ], $code);
     }
 
     public function created(

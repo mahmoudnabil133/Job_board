@@ -18,6 +18,9 @@ Route::prefix('v1/auth')->group(function () {
     Route::post('/login', LoginController::class)->name('auth.login');
 });
 
+
+
+
 // Protected routes
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // Auth
