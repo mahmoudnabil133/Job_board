@@ -15,14 +15,19 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'password_confirmation' => 'required|same:password',
+            // 'password_confirmation' => 'required|same:password', // it is redundant, the previous rule handles it
             'role' => 'required|in:candidate,employer,admin',
         ];
     }
-    protected function prepareForValidation(): void
+
+    /* 
+    prepareForValidation: Laravel auto-triggered hook [built-in function] process the request before validation starts:
+        like simply logging it, or doing any operations [toLowerCase, concat with additional input, merging two fields, ..]
+    */
+    protected function prepareForValidation(): void  
     {
         Log::info('RegisterRequest - Before validation', [
             'all_data' => $this->all(),

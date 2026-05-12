@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
+
 
 class LoginRequest extends FormRequest
 {
@@ -17,6 +19,15 @@ class LoginRequest extends FormRequest
             'email' => 'required|email',
             'password' => 'required|string',
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        Log::info('LoginRequest - Before validation', [
+            'email' => $this->email,
+            'password' => $this->password
+        ]);
+            
     }
 
     public function messages(): array

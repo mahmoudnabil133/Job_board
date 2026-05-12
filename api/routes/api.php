@@ -8,23 +8,54 @@ use App\Http\Controllers\Api\V1\Candidate\SavedJobController;
 use App\Http\Controllers\Api\V1\Employer\CompanyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\Employer\JobController as EmployerJobController;
 use App\Http\Controllers\Api\V1\Candidate\JobSearchController;
 use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
+use App\Http\Controllers\Api\V1\NotificationController;
+
 
 // Public routes for authentication
 Route::prefix('v1/auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/register', RegisterController::class)->name('auth.register');
+    Route::post('/login', LoginController::class)->name('auth.login');
 });
 
-// Protected authentication routes
-Route::prefix('v1/auth')->middleware('auth:sanctum')->group(function () {
-    Route::get('/me', [AuthController::class, 'me'])->name('auth.me');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    Route::post('/refresh', [AuthController::class, 'refresh'])->name('auth.refresh');
-    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
+
+
+
+// Protected routes
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+    // Auth
+    Route::post('/auth/logout', LogoutController::class)->name('auth.logout');
+    
+    // User / Profile
+    Route::get('/user/me', [UserController::class, 'me'])->name('user.me');
+    Route::post('/user/change-password', [UserController::class, 'changePassword'])->name('user.change-password');
+
+    // Notifications
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index']);
+        Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::patch('/{notification}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+    });
+
+
+    // Employer routes
+    Route::prefix('employer')->middleware('role:employer')->group(function () {
+        Route::apiResource('jobs', EmployerJobController::class)->except(['show']);
+    });
+
+    // Admin routes
+    Route::prefix('admin')->middleware('role:admin')->group(function () {
+        Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
+        Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
+        Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
+    });
 });
 
 // Public routes - Job search

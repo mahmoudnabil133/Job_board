@@ -16,7 +16,7 @@ class CandidateProfileController extends BaseController
         parent::__construct($response);
     }
 
-    public function show()
+    public function show() 
     {
         $candidate = auth()->user();
         if (!$candidate->isCandidate()) {

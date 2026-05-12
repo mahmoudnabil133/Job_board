@@ -17,7 +17,7 @@ class ApiResponseService{
         if (!empty($meta)){
             $response['meta'] = $meta;
         }
-        return response()->json($response, $code);
+        return response()->json($response, $code);  //response()->json(data, code) is a built-in laravel function
     }
     public function error(
         string $message = 'Error',
@@ -25,19 +25,20 @@ class ApiResponseService{
         mixed $errors = null,
         mixed $data = null,
     ){
-        $response = [
+        return response()->json([
             'status' => 'error',
             'message' => $message,
-        ];
-        if (!empty($errors)){
-            $response['errors'] = $errors;
-        }
-        if (!empty($data)){
-            $response['data'] = $data;
-        }
-        return response()->json($response, $code);
+            'errors' => $errors,
+            'data' => $data
+        ], $code);
     }
-
+    public function loggedin(
+        mixed $data = null,
+        string $message = 'User logged in successfully',
+        array $meta = [],
+    )
+    {return $this->success($data, $message, 200, $meta);} 
+    
     public function created(
         mixed $data = null,
         string $message = 'Resource created successfully',
@@ -89,6 +90,13 @@ class ApiResponseService{
         array $errors = []
     ){
         return $this->error($message, 500, $errors);
+    }
+
+    public function invalidCredintials(
+        string $message = 'Invalid Credintials',
+        array $errors = []
+    ){
+        return $this->error($message, 401, $errors);
     }
 
 }

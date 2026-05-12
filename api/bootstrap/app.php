@@ -13,7 +13,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->append([
+            \App\Http\Middleware\ForceJsonResponse::class,
+            \App\Http\Middleware\AddCorrelationId::class,
+            \App\Http\Middleware\LogApiRequest::class,
+        ]);
+
+        $middleware->alias([
+            'role' => \App\Http\Middleware\EnsureRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Register your custom exception handler here
