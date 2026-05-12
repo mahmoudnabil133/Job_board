@@ -9,17 +9,23 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Log;
 use Str;
-use Symfony\Component\HttpKernel\Exception\HttpException;// ✅ Add this
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class JobService
 {
+    public function __construct(
+        private ActivityLogService $activityLogService,
+        private NotificationService $notificationService
+    ) {
+    }
+
 
     public function create(array $data, User $employer)
     {
         $job = Job::create([
             ...$data,
             'employer_id' => $employer->id,
-            'slug' => Str::slug($data['title']),    // ✅ REQUIRED
+            'slug' => Str::slug($data['title']),
             'status' => JobStatus::Pending,
             'expires_at' => now()->addDays(30), 
         ]);
@@ -35,6 +41,7 @@ class JobService
             }
         }
         Log::info('job.created', ['job_id' => $job->id, 'employer_id' => $employer->id]);
+        $this->activityLogService->log($employer, 'job.created', "Employer {$employer->id} created a new job with ID {$job->id}.");
         return $job->load(['company', 'category', 'skills']);
     }
 
@@ -57,6 +64,7 @@ class JobService
             }
         }
         Log::info('job.updated', ['job_id' => $job->id, 'employer_id' => $employer->id]);
+        $this->activityLogService->log($employer, 'job.updated', "Employer {$employer->id} updated job with ID {$job->id}.");
         return $job->fresh()->load(['company', 'category', 'skills']);
     }
 
@@ -67,6 +75,7 @@ class JobService
         }
         $job->delete();
         Log::info('job.deleted', ['job_id' => $job->id, 'employer_id' => $employer->id]);
+        $this->activityLogService->log($employer, 'job.deleted', "Employer {$employer->id} deleted job with ID {$job->id}.");
         return true;
     }
 
@@ -88,7 +97,14 @@ class JobService
             'approved_at' => now(),
         ]);
         Log::info('job.approved', ['job_id' => $job->id, 'admin_id' => $admin->id]);
-
+        $this->activityLogService->log($admin, 'job.approved', "Admin {$admin->id} approved job with ID {$job->id}.");
+        // Notify employer about approval
+        $this->notificationService->notify(
+            $job->employer,
+            'Job Approved',
+            "Your job posting '{$job->title}' has been approved and is now live.",
+            'success'
+        );
         return $job->fresh()->load(['company', 'category', 'skills']);
     }
 
@@ -102,7 +118,13 @@ class JobService
             'approved_at' => now(),
         ]);
         Log::info('job.rejected', ['job_id' => $job->id, 'admin_id' => $admin->id]);
-
+        $this->activityLogService->log($admin, 'job.rejected', "Admin {$admin->id} rejected job with ID {$job->id}.");
+        $this->notificationService->notify(
+            $job->employer,
+            'Job Rejected',
+            "Your job posting '{$job->title}' has been rejected. Please review our guidelines and try again.",
+            'error'
+        );
         return $job->fresh()->load(['company', 'category', 'skills']);
     }
 }
