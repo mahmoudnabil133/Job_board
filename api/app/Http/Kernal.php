@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         'api' => [
             \App\Http\Middleware\ForceJsonResponse::class,
             \App\Http\Middleware\RequestLogger::class,
+            \App\Http\Middleware\AuthenticationLogger::class,
 
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
 
@@ -28,7 +29,7 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-         'auth' => \App\Http\Middleware\Authenticate::class,
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'role' => \App\Http\Middleware\EnsureRole::class,
     ];
 }
