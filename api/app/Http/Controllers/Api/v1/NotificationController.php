@@ -19,7 +19,7 @@ class NotificationController extends Controller
     public function index(Request $request): JsonResponse
     {
         $notifications = $this->notificationService->getUserNotifications($request->user());
-        return $this->success(NotificationResource::collection($notifications));
+        return $this->success(NotificationResource::collection($notifications), 'Notifications retrieved successfully');
     }
 
     /**
@@ -28,7 +28,7 @@ class NotificationController extends Controller
     public function unreadCount(Request $request): JsonResponse
     {
         $count = $this->notificationService->getUnreadCount($request->user());
-        return $this->success(['unread_count' => $count]);
+        return $this->success(['unread_count' => $count], 'Unread notification count retrieved successfully');
     }
 
     /**

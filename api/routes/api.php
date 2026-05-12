@@ -43,19 +43,6 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::patch('/{notification}/read', [NotificationController::class, 'markAsRead']);
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
     });
-
-
-    // Employer routes
-    Route::prefix('employer')->middleware('role:employer')->group(function () {
-        Route::apiResource('jobs', EmployerJobController::class)->except(['show']);
-    });
-
-    // Admin routes
-    Route::prefix('admin')->middleware('role:admin')->group(function () {
-        Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
-        Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
-        Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
-    });
 });
 
 // Public routes - Job search
