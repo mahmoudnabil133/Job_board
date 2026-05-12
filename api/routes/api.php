@@ -1,40 +1,52 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Admin\CategoryController;
-use App\Http\Controllers\Api\V1\Admin\SkillController;
-use App\Http\Controllers\Api\V1\Candidate\ApplicationController;
-use App\Http\Controllers\Api\V1\Candidate\CandidateProfileController;
-use App\Http\Controllers\Api\V1\Candidate\SavedJobController;
-use App\Http\Controllers\Api\V1\Employer\CompanyController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+// Auth
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
+
+// Core
 use App\Http\Controllers\Api\V1\UserController;
-use App\Http\Controllers\Api\V1\Employer\JobController as EmployerJobController;
-use App\Http\Controllers\Api\V1\Candidate\JobSearchController;
-use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
 use App\Http\Controllers\Api\V1\NotificationController;
 
+// Employer
+use App\Http\Controllers\Api\V1\Employer\JobController as EmployerJobController;
+use App\Http\Controllers\Api\V1\Employer\CompanyController;
 
-// Public routes for authentication
+// Candidate
+use App\Http\Controllers\Api\V1\Candidate\JobSearchController;
+use App\Http\Controllers\Api\V1\Candidate\ApplicationController;
+use App\Http\Controllers\Api\V1\Candidate\CandidateProfileController;
+use App\Http\Controllers\Api\V1\Candidate\SavedJobController;
+
+// Admin
+use App\Http\Controllers\Api\V1\Admin\CategoryController;
+use App\Http\Controllers\Api\V1\Admin\SkillController;
+use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
+
+//
+// =======================
+// AUTH (PUBLIC)
+// =======================
 Route::prefix('v1/auth')->group(function () {
-    Route::post('/register', RegisterController::class)->name('auth.register');
-    Route::post('/login', LoginController::class)->name('auth.login');
+    Route::post('/register', RegisterController::class);
+    Route::post('/login', LoginController::class);
 });
 
-
-
-
-// Protected routes
+//
+// =======================
+// AUTHENTICATED ROUTES
+// =======================
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+
     // Auth
-    Route::post('/auth/logout', LogoutController::class)->name('auth.logout');
-    
-    // User / Profile
-    Route::get('/user/me', [UserController::class, 'me'])->name('user.me');
-    Route::post('/user/change-password', [UserController::class, 'changePassword'])->name('user.change-password');
+    Route::post('/auth/logout', LogoutController::class);
+
+    // User
+    Route::get('/user/me', [UserController::class, 'me']);
+    Route::post('/user/change-password', [UserController::class, 'changePassword']);
 
     // Notifications
     Route::prefix('notifications')->group(function () {
@@ -44,84 +56,74 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
     });
 
-
-    // Employer routes
+    //
+    // =======================
+    // EMPLOYER
+    // =======================
     Route::prefix('employer')->middleware('role:employer')->group(function () {
-        Route::apiResource('jobs', EmployerJobController::class)->except(['show']);
+
+        // Jobs
+        Route::apiResource('jobs', EmployerJobController::class);
+
+        // Company
+        Route::get('company', [CompanyController::class, 'show']);
+        Route::post('company', [CompanyController::class, 'store']);
+        Route::put('company', [CompanyController::class, 'update']);
+        Route::delete('company', [CompanyController::class, 'destroy']);
+
+        // Applications (employer side)
+        Route::get('applications/stats', [ApplicationController::class, 'stats']);
+        Route::get('applications', [ApplicationController::class, 'getEmployerApplications']);
+        Route::get('jobs/{job}/applications', [ApplicationController::class, 'getJobApplications']);
+        Route::get('applications/{application}', [ApplicationController::class, 'show']);
+        Route::patch('applications/{application}/status', [ApplicationController::class, 'updateStatus']);
     });
 
-    // Admin routes
+    //
+    // =======================
+    // CANDIDATE
+    // =======================
+    Route::prefix('candidate')->middleware('role:candidate')->group(function () {
+
+        // Profile
+        Route::get('profile', [CandidateProfileController::class, 'show']);
+        Route::post('profile', [CandidateProfileController::class, 'store']);
+        Route::put('profile', [CandidateProfileController::class, 'update']);
+        Route::delete('profile', [CandidateProfileController::class, 'destroy']);
+
+        // Jobs search
+        Route::get('jobs', [JobSearchController::class, 'index']);
+        Route::get('jobs/{slug}', [JobSearchController::class, 'show']);
+
+        // Applications
+        Route::get('applications', [ApplicationController::class, 'index']);
+        Route::post('applications', [ApplicationController::class, 'store']);
+        Route::get('applications/{application}', [ApplicationController::class, 'show']);
+        Route::patch('applications/{application}/withdraw', [ApplicationController::class, 'withdraw']);
+
+        // Saved jobs
+        Route::get('saved-jobs', [SavedJobController::class, 'index']);
+        Route::post('jobs/{job}/save', [SavedJobController::class, 'save']);
+        Route::delete('jobs/{job}/unsave', [SavedJobController::class, 'unsave']);
+        Route::post('jobs/{job}/toggle', [SavedJobController::class, 'toggle']);
+        Route::get('jobs/{job}/saved', [SavedJobController::class, 'check']);
+    });
+
+    //
+    // =======================
+    // ADMIN
+    // =======================
     Route::prefix('admin')->middleware('role:admin')->group(function () {
+
+        // Categories
+        Route::apiResource('categories', CategoryController::class);
+
+        // Skills
+        Route::apiResource('skills', SkillController::class);
+
+        // Job approval
         Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
         Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
         Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
     });
-});
-
-// Public routes - Job search
-Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
-    // Job search routes
-    Route::get('/jobs', [JobSearchController::class, 'index']);
-    Route::get('/jobs/{slug}', [JobSearchController::class, 'show']);
-});
-
-// Employer routes
-Route::prefix('v1/employer')->middleware('auth:sanctum')->group(function () {
-
-    // Job management routes
-    Route::apiResource('jobs', EmployerJobController::class)->except(['show']);
-
-    // Company profile routes
-    Route::get('company', [CompanyController::class, 'show']);
-    Route::post('company', [CompanyController::class, 'store']);
-    Route::put('company', [CompanyController::class, 'update']);
-    Route::delete('company', [CompanyController::class, 'destroy']);
-
-    Route::get('applications/stats', [ApplicationController::class, 'stats']);
-    Route::get('applications', [ApplicationController::class, 'getEmployerApplications']);
-    Route::get('jobs/{job}/applications', [ApplicationController::class, 'getJobApplications']);
-    Route::get('applications/{application}', [ApplicationController::class, 'show']);
-    Route::patch('applications/{application}/status', [ApplicationController::class, 'updateStatus']);
-
-});
-
-// Candidate routes
-Route::prefix('v1/candidate')->middleware('auth:sanctum')->group(function () {
-    // Candidate profile routes
-    Route::get('profile', [CandidateProfileController::class, 'show']);
-    Route::post('profile', [CandidateProfileController::class, 'store']);
-    Route::put('profile', [CandidateProfileController::class, 'update']);
-    Route::delete('profile', [CandidateProfileController::class, 'destroy']);
-
-
-    // Application routes
-    Route::get('applications', [ApplicationController::class, 'index']);
-    Route::post('applications', [ApplicationController::class, 'store']);
-    Route::get('applications/{application}', [ApplicationController::class, 'show']);
-    Route::patch('applications/{application}/withdraw', [ApplicationController::class, 'withdraw']);
-
-    // save job
-    Route::get('saved-jobs', [SavedJobController::class, 'index']);
-    Route::post('jobs/{job}/save', [SavedJobController::class, 'save']);
-    Route::delete('jobs/{job}/unsave', [SavedJobController::class, 'unsave']);
-    Route::post('jobs/{job}/toggle', [SavedJobController::class, 'toggle']);
-    Route::get('jobs/{job}/saved', [SavedJobController::class, 'check']);
-
-
-
-});
-
-
-// Admin routes
-Route::prefix('v1/admin')->middleware(['auth:sanctum', \App\Http\Middleware\EnsureRole::class . ':admin'])->group(function () {
-
-    // Job approval routes
-    Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
-    Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
-    Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
-
-    Route::apiResource('categories', CategoryController::class);
-
-    // Skills CRUD
-    Route::apiResource('skills', SkillController::class);
 });
