@@ -16,7 +16,11 @@ use App\Services\NotificationService;
 
 class ApplicationService
 {
-    public function __construct(private NotificationService $notificationService) {}
+    public function __construct(
+        private NotificationService $notificationService,
+        private ActivityLogService $activityLogService
+    ) {
+    }
 
     // - validate application data
 
@@ -73,6 +77,14 @@ class ApplicationService
                 'candidate_id' => $candidate->id,
             ]);
 
+            $this->activityLogService->log($candidate, 'application_submitted', "Candidate {$candidate->id} submitted an application for job {$job->id}.");
+            $this->notificationService->notify(
+                $job->employer,
+                'New Application received',
+                "You have received a new application for '{$job->title}' from {$candidate->name}.",
+                'info'
+            );
+
             return $application->load(['job.company', 'answers.question']);
         });
     }
@@ -116,6 +128,13 @@ class ApplicationService
             'job_id' => $application->job_id,
             'candidate_id' => $user->id,
         ]);
+        $this->activityLogService->log($user, 'application_withdrawn', "Candidate {$user->id} withdrew their application for job {$application->job_id}.");
+        $this->notificationService->notify(
+            $application->job->employer,
+            'Application Withdrawn',
+            "The application for '{$application->job->title}' from {$user->name} has been withdrawn.",
+            'warning'
+        );
         return $application->load(['job.company', 'answers.question'])->fresh();
     }
 
@@ -153,6 +172,7 @@ class ApplicationService
         }
         $application->update($updatedData);
 
+        $this->activityLogService->log($application->job->employer, 'application_status_updated', "Application status updated TO {$status} for job {$application->job->id}.");
         // Notify candidate if application is accepted
         if ($status === 'accepted') {
             $this->notificationService->notify(
