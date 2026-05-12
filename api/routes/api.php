@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\V1\Candidate\SavedJobController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController;
 use App\Http\Controllers\Api\V1\Admin\SkillController;
 use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
+use App\Http\Controllers\Api\V1\Admin\DashboardController;
 
 //
 // =======================
@@ -125,5 +126,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::get('jobs/pending', [JobApprovalController::class, 'pending']);
         Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
         Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
+        // Dashboard
+        Route::get('dashboard', [DashboardController::class, 'stats']);
     });
 });
