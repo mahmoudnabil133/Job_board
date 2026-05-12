@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 class SavedJobService
 {
+    public function __construct(
+        private ActivityLogService $activityLogService
+    ) {
+    }
+
     public function getSavedJobs(User $user){
         if(!$user->isCandidate()){
             throw new AuthorizationException('only candidates can have saved jobs');
@@ -31,7 +36,7 @@ class SavedJobService
             'job_id' => $job->id,
             'candidate_id' => $user->id,
         ]);
-
+        $this->activityLogService->log($user, 'job.saved', "Candidate {$user->id} saved job with ID {$job->id}.");
         return $savedJob->load([
             'job.company',
             'job.category',
@@ -51,7 +56,7 @@ class SavedJobService
             'job_id' => $job->id,
             'candidate_id' => $user->id,
         ]);
-
+        $this->activityLogService->log($user, 'job.unsaved', "Candidate {$user->id} unsaved job with ID {$job->id}.");
         return $savedJob->load([
             'job.company',
             'job.category',

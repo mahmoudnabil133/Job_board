@@ -94,7 +94,7 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof ValidationException) {
             $statusCode = 422;
-            $message = 'Validation errorrrs';
+            $message = 'Validation errors';
             $errors = $e->errors();
         } elseif ($e instanceof QueryException) {
             $statusCode = 400;
@@ -114,21 +114,21 @@ class Handler extends ExceptionHandler
             $message = $e->getMessage() ?: 'Forbidden - You do not have permission';
         } elseif ($e instanceof NotFoundHttpException) {
             $statusCode = 404;
-            $message = 'Resource not founddd';
+            $message = 'Resource not found.';
         } elseif ($e instanceof HttpException) {
             $statusCode = $e->getStatusCode();
             $message = $e->getMessage() ?: 'HTTP Error';
         }
     
         // Include debug info in non-production
-        if (config('app.debug')) {
-            $errors['debug'] = [
-                'exception' => get_class($e),
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ];
-        }
+        // if (config('app.debug')) {
+        //     $errors['debug'] = [
+        //         'exception' => get_class($e),
+        //         'message' => $e->getMessage(),
+        //         'file' => $e->getFile(),
+        //         'line' => $e->getLine(),
+        //     ];
+        // }
         return response()->json([
             'status' => 'error',
             'message' => $message,
