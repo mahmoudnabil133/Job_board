@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ActivityLogController;
 use App\Http\Controllers\Api\V1\Admin\CategoryController;
 use App\Http\Controllers\Api\V1\Admin\SkillController;
 use App\Http\Controllers\Api\V1\Candidate\ApplicationController;
 use App\Http\Controllers\Api\V1\Candidate\CandidateProfileController;
 use App\Http\Controllers\Api\V1\Candidate\SavedJobController;
 use App\Http\Controllers\Api\V1\Employer\CompanyController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
@@ -43,10 +43,13 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
         Route::patch('/{notification}/read', [NotificationController::class, 'markAsRead']);
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead']);
     });
+
+    // Activity logs for users
+    Route::get('logs/my-activity-logs', [ActivityLogController::class, 'myActivityLogs']);
 });
 
 // Public routes - Job search
-Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+Route::prefix('v1')->group(function () {
     // Job search routes
     Route::get('/jobs', [JobSearchController::class, 'index']);
     Route::get('/jobs/{slug}', [JobSearchController::class, 'show']);
@@ -107,8 +110,14 @@ Route::prefix('v1/admin')->middleware(['auth:sanctum', \App\Http\Middleware\Ensu
     Route::patch('jobs/{job}/approve', [JobApprovalController::class, 'approve']);
     Route::patch('jobs/{job}/reject', [JobApprovalController::class, 'reject']);
 
+    // Category CRUD
     Route::apiResource('categories', CategoryController::class);
 
     // Skills CRUD
     Route::apiResource('skills', SkillController::class);
+
+    // Admin dashboard stats route
+    Route::get('logs/activity-logs', [ActivityLogController::class, 'index']);
+
+
 });
