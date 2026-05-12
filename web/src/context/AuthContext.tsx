@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { fetchJson, isFetchJsonFailure } from '../lib/api';
+import { fetchJson, isFetchJsonFailure, unwrapLaravelData } from '../lib/api';
 import type { AuthUser } from '../types';
 
 const TOKEN_KEY = 'iti_careers_token';
@@ -32,16 +32,22 @@ export type RegisterPayload = {
   role: 'candidate' | 'employer' | 'admin';
 };
 
-type MeResponse = {
-  success?: boolean;
-  user?: AuthUser;
-};
-
 type AuthSuccessResponse = {
   success?: boolean;
   user?: AuthUser;
   token?: string;
 };
+
+function parseLoginPayload(body: unknown): { user?: AuthUser; token?: string } {
+  const nested = unwrapLaravelData<{ user?: AuthUser; token?: string }>(body);
+  if (nested && typeof nested === 'object' && (nested.user !== undefined || nested.token !== undefined)) {
+    return nested;
+  }
+  if (body && typeof body === 'object' && ('user' in body || 'token' in body)) {
+    return body as { user?: AuthUser; token?: string };
+  }
+  return {};
+}
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -70,10 +76,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!cancelled) setInitializing(false);
         return;
       }
-      const res = await fetchJson<MeResponse>('/v1/auth/me', { method: 'GET', token: t });
+      const res = await fetchJson<unknown>('/v1/user/me', { method: 'GET', token: t });
       if (cancelled) return;
-      if (res.ok && res.data.user) {
-        setUser(res.data.user);
+      const meUser = unwrapLaravelData<AuthUser>(res.data);
+      if (res.ok && meUser?.email) {
+        setUser(meUser);
         setToken(t);
       } else {
         localStorage.removeItem(TOKEN_KEY);
@@ -96,8 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isFetchJsonFailure(res)) {
       return { ok: false as const, status: res.status, data: res.data };
     }
-    const u = res.data.user;
-    const t = res.data.token;
+    const { user: u, token: t } = parseLoginPayload(res.data);
     if (u && t) {
       setSession(t, u);
       return { ok: true as const };

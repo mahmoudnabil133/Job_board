@@ -40,6 +40,18 @@ export function getPrimaryApiMessage(data: unknown, fallback: string): string {
   return list[0] ?? fallback;
 }
 
+/**
+ * Laravel controllers in this repo often return `{ status, message?, data: T }`.
+ * Returns the inner `data` when present and non-null.
+ */
+export function unwrapLaravelData<T>(body: unknown): T | undefined {
+  if (!body || typeof body !== 'object') return undefined;
+  if (!('data' in body)) return undefined;
+  const v = (body as { data: unknown }).data;
+  if (v === null || v === undefined) return undefined;
+  return v as T;
+}
+
 async function parseJsonSafe(res: Response): Promise<unknown> {
   const text = await res.text();
   if (!text) return {};
