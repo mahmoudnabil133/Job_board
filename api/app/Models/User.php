@@ -63,6 +63,12 @@ use HasApiTokens, HasFactory, Notifiable;
         return $this->hasMany(ActivityLog::class);
     }
 
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+
     // Role checks
     public function isCandidate()
     {
