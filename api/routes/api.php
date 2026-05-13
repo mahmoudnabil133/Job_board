@@ -61,7 +61,6 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 });
 
 
-
 // Public routes - Job search
 Route::prefix('v1')->group(function () {
     // Job search routes
