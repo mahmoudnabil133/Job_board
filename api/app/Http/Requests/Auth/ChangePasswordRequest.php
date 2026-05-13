@@ -19,6 +19,13 @@ class ChangePasswordRequest extends FormRequest
         ];
     }
 
+    public function prepareForValidation(): void {
+        Log::info('ChangePasswordRequest - Before validation', [
+            'current_password' => $this->current_password,
+            'new_password' => $this->new_password
+        ]);
+    }
+
     public function messages(): array
     {
         return [
