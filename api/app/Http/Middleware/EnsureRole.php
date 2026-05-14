@@ -22,7 +22,14 @@ class EnsureRole
             throw new AuthenticationException('Unauthenticated. You must be authenticated to access this resource.');
         }
 
-        if (!in_array($request->user()->role->value ?? $request->user()->role, $roles)) {
+        $rawRole = $request->user()->role;
+        $normalized = match (true) {
+            $rawRole instanceof \BackedEnum => $rawRole->value,
+            $rawRole instanceof \UnitEnum => $rawRole->name,
+            default => (string) $rawRole,
+        };
+
+        if (!in_array($normalized, $roles, true)) {
             throw new AuthorizationException('Unauthorized. You do not have the required role.');
         }
 

@@ -40,6 +40,35 @@ export function getPrimaryApiMessage(data: unknown, fallback: string): string {
   return list[0] ?? fallback;
 }
 
+/** Laravel controllers return `{ status, message?, data }`; read the inner payload. */
+export function getApiEnvelopeData<T>(body: unknown): T | undefined {
+  if (body == null || typeof body !== 'object') return undefined;
+  const o = body as { data?: unknown };
+  if ('data' in o && o.data !== undefined) return o.data as T;
+  return body as T;
+}
+
+/** Laravel `JsonResource::collection` + paginator nests items under `data`. */
+export function getResourceCollectionItems<T>(body: unknown): T[] {
+  const inner = getApiEnvelopeData<unknown>(body);
+  if (Array.isArray(inner)) return inner as T[];
+  if (inner && typeof inner === 'object' && 'data' in inner) {
+    const nested = (inner as { data: unknown }).data;
+    if (Array.isArray(nested)) return nested as T[];
+  }
+  return [];
+}
+
+export function getResourceCollectionMeta(body: unknown): Record<string, unknown> | undefined {
+  const inner = getApiEnvelopeData<{ meta?: Record<string, unknown> }>(body);
+  if (inner && typeof inner === 'object' && inner.meta && typeof inner.meta === 'object') {
+    return inner.meta;
+  }
+  const root = body as { meta?: Record<string, unknown> };
+  if (root.meta && typeof root.meta === 'object') return root.meta;
+  return undefined;
+}
+
 async function parseJsonSafe(res: Response): Promise<unknown> {
   const text = await res.text();
   if (!text) return {};
@@ -58,7 +87,7 @@ export type FetchJsonSuccess<T> = { ok: true; data: T };
 export type FetchJsonFailure = { ok: false; status: number; data: unknown };
 export type FetchJsonResult<T> = FetchJsonSuccess<T> | FetchJsonFailure;
 
-export function isFetchJsonFailure<T>(r: FetchJsonResult<T>): r is FetchJsonFailure {
+export function isFetchJsonFailure(r: { ok: unknown }): r is FetchJsonFailure {
   return r.ok === false;
 }
 

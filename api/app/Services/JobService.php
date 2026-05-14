@@ -42,6 +42,16 @@ class JobService
         }
         Log::info('job.created', ['job_id' => $job->id, 'employer_id' => $employer->id]);
         $this->activityLogService->log($employer, 'job.created', "Employer {$employer->id} created a new job with ID {$job->id}.");
+
+        foreach (User::query()->where('role', 'admin')->cursor() as $adminUser) {
+            $this->notificationService->notify(
+                $adminUser,
+                'New job pending approval',
+                "Employer {$employer->name} submitted '{$job->title}' for review.",
+                'info',
+            );
+        }
+
         return $job->load(['company', 'category', 'skills']);
     }
 
@@ -88,7 +98,7 @@ class JobService
     }
 
     public function approveJob(Job $job, User $admin){
-        if ($job->status !== 'pending') {
+        if ($job->status !== JobStatus::Pending->value) {
             throw new HttpException(400, 'Only pending jobs can be approved.');
         }
         $job->update([

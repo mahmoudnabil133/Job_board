@@ -1,5 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { getUnreadNotificationCount } from '../services/jobBoardApi';
+import { isFetchJsonFailure } from '../lib/api';
 import type { AuthUserRole } from '../types';
 
 function dashboardHref(role: AuthUserRole): string {
@@ -23,8 +26,25 @@ function initials(name: string): string {
 }
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, token, logout } = useAuth();
   const navigate = useNavigate();
+  const [unread, setUnread] = useState(0);
+
+  useEffect(() => {
+    if (!token) {
+      setUnread(0);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      const res = await getUnreadNotificationCount(token);
+      if (cancelled || isFetchJsonFailure(res)) return;
+      setUnread(res.count);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [token, user?.id]);
 
   async function handleLogout() {
     await logout();
@@ -34,14 +54,14 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to={user ? '/' : '/register'} className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-brand-red flex items-center justify-center text-white font-black text-lg rounded-lg">
             ITI
           </div>
           <span className="font-bold text-xl tracking-tight text-gray-900">Careers</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           <Link to="/jobs" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
             Find Jobs
           </Link>
@@ -51,6 +71,23 @@ export default function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-4">
+              <Link
+                to="/notifications"
+                className="relative text-sm font-medium text-gray-600 hover:text-brand-red transition-colors"
+              >
+                Alerts
+                {unread > 0 && (
+                  <span className="absolute -top-1 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-red text-white text-[10px] font-bold flex items-center justify-center">
+                    {unread > 99 ? '99+' : unread}
+                  </span>
+                )}
+              </Link>
+              <Link to="/messages" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+                Messages
+              </Link>
+              <Link to="/settings" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+                Settings
+              </Link>
               <Link
                 to={dashboardHref(user.role)}
                 className="flex items-center gap-2 group rounded-lg pr-2 hover:bg-gray-50 transition-colors"

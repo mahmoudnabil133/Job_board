@@ -11,6 +11,7 @@ import MainLayout from './layouts/MainLayout';
 import LandingPage from './pages/LandingPage';
 import JobsPage from './pages/JobsPage';
 import JobDetailsPage from './pages/JobDetailsPage';
+import CompaniesPage from './pages/CompaniesPage';
 import CandidateDashboard from './pages/CandidateDashboard';
 import EmployerDashboard from './pages/EmployerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -20,6 +21,9 @@ import RegisterEmployeePage from './pages/RegisterEmployeePage';
 import RegisterEmployerPage from './pages/RegisterEmployerPage';
 import RegisterAdminPage from './pages/RegisterAdminPage';
 import NotFoundPage from './pages/NotFoundPage';
+import NotificationsPage from './pages/NotificationsPage';
+import MessagesPage from './pages/MessagesPage';
+import AccountSettingsPage from './pages/AccountSettingsPage';
 
 export default function App() {
   return (
@@ -32,11 +36,16 @@ export default function App() {
           <Route path="/register/employer" element={<RegisterEmployerPage />} />
           <Route path="/register/admin" element={<RegisterAdminPage />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/jobs" element={<JobsPage />} />
-              <Route path="/jobs/:id" element={<JobDetailsPage />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/jobs" element={<JobsPage />} />
+            <Route path="/jobs/:slug" element={<JobDetailsPage />} />
+            <Route path="/companies" element={<CompaniesPage />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/settings" element={<AccountSettingsPage />} />
 
               <Route element={<RoleRoute allow={['candidate']} />}>
                 <Route path="/dashboard/candidate" element={<CandidateDashboard />} />
