@@ -48,6 +48,27 @@ export function getApiEnvelopeData<T>(body: unknown): T | undefined {
   return body as T;
 }
 
+/** Laravel `JsonResource::collection` + paginator nests items under `data`. */
+export function getResourceCollectionItems<T>(body: unknown): T[] {
+  const inner = getApiEnvelopeData<unknown>(body);
+  if (Array.isArray(inner)) return inner as T[];
+  if (inner && typeof inner === 'object' && 'data' in inner) {
+    const nested = (inner as { data: unknown }).data;
+    if (Array.isArray(nested)) return nested as T[];
+  }
+  return [];
+}
+
+export function getResourceCollectionMeta(body: unknown): Record<string, unknown> | undefined {
+  const inner = getApiEnvelopeData<{ meta?: Record<string, unknown> }>(body);
+  if (inner && typeof inner === 'object' && inner.meta && typeof inner.meta === 'object') {
+    return inner.meta;
+  }
+  const root = body as { meta?: Record<string, unknown> };
+  if (root.meta && typeof root.meta === 'object') return root.meta;
+  return undefined;
+}
+
 async function parseJsonSafe(res: Response): Promise<unknown> {
   const text = await res.text();
   if (!text) return {};
