@@ -87,7 +87,7 @@ export type FetchJsonSuccess<T> = { ok: true; data: T };
 export type FetchJsonFailure = { ok: false; status: number; data: unknown };
 export type FetchJsonResult<T> = FetchJsonSuccess<T> | FetchJsonFailure;
 
-export function isFetchJsonFailure<T>(r: FetchJsonResult<T>): r is FetchJsonFailure {
+export function isFetchJsonFailure(r: { ok: unknown }): r is FetchJsonFailure {
   return r.ok === false;
 }
 
