@@ -6,6 +6,7 @@ import {
   markNotificationRead,
 } from '../services/jobBoardApi';
 import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
+import { emitNavBadgesUpdate, isMessageNotification } from '../lib/navBadges';
 import type { ApiNotification } from '../types/api';
 
 export default function NotificationsPage() {
@@ -34,14 +35,21 @@ export default function NotificationsPage() {
 
   async function onRead(id: number) {
     if (!token) return;
+    const n = items.find((x) => x.id === id);
+    if (!n || n.is_read) return;
     const res = await markNotificationRead(token, id);
-    if (!isFetchJsonFailure(res)) void load();
+    if (isFetchJsonFailure(res)) return;
+    setItems((prev) => prev.map((x) => (x.id === id ? { ...x, is_read: true } : x)));
+    if (isMessageNotification(n)) emitNavBadgesUpdate({ mode: 'message-notification-read' });
+    else emitNavBadgesUpdate({ mode: 'delta-alerts', delta: -1 });
   }
 
   async function onReadAll() {
     if (!token) return;
     const res = await markAllNotificationsRead(token);
-    if (!isFetchJsonFailure(res)) void load();
+    if (isFetchJsonFailure(res)) return;
+    setItems((prev) => prev.map((x) => ({ ...x, is_read: true })));
+    emitNavBadgesUpdate({ mode: 'refetch-alerts' });
   }
 
   return (

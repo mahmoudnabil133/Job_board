@@ -65,7 +65,7 @@ export default function JobsPage() {
     const res = await getPublicJobs(query);
     setLoading(false);
     if (isFetchJsonFailure(res)) {
-      setError('We could not reach the job board service. Confirm the API is running and try again.');
+      setError('We could not reach the job board service. Please try again in a moment.');
       setItems([]);
       return;
     }
@@ -189,7 +189,7 @@ export default function JobsPage() {
               <h1 className="text-2xl font-bold text-gray-900">
                 {loading ? 'Searching…' : `${total} role${total === 1 ? '' : 's'} found`}
               </h1>
-              <p className="text-sm text-gray-500">Showing approved listings from the ITI Careers API.</p>
+              <p className="text-sm text-gray-500">Showing approved listings on ITI Careers.</p>
             </div>
 
             {error && (

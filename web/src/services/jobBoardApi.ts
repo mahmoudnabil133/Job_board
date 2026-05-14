@@ -399,6 +399,23 @@ export async function getConversations(token: string, page = 1) {
   };
 }
 
+/** Sum of `unread_count` across all inbox pages (candidates & employers only). */
+export async function getTotalUnreadMessages(token: string): Promise<number> {
+  let total = 0;
+  let page = 1;
+  let lastPage = 1;
+  const maxPages = 40;
+  while (page <= lastPage && page <= maxPages) {
+    const res = await getConversations(token, page);
+    if (isFetchJsonFailure(res)) return total;
+    for (const c of res.items) total += Number(c.unread_count) || 0;
+    lastPage = typeof res.meta?.last_page === 'number' ? res.meta.last_page : 1;
+    if (res.items.length === 0) break;
+    page += 1;
+  }
+  return total;
+}
+
 export async function getConversationMessages(token: string, conversationId: number, page = 1) {
   const res = await fetchJson<unknown>(
     `/v1/conversations/${conversationId}/messages?page=${page}`,

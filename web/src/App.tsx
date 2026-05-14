@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleRoute from './components/RoleRoute';
@@ -19,7 +19,6 @@ import LoginPage from './pages/LoginPage';
 import RegisterHubPage from './pages/RegisterHubPage';
 import RegisterEmployeePage from './pages/RegisterEmployeePage';
 import RegisterEmployerPage from './pages/RegisterEmployerPage';
-import RegisterAdminPage from './pages/RegisterAdminPage';
 import NotFoundPage from './pages/NotFoundPage';
 import NotificationsPage from './pages/NotificationsPage';
 import MessagesPage from './pages/MessagesPage';
@@ -34,12 +33,10 @@ export default function App() {
           <Route path="/register" element={<RegisterHubPage />} />
           <Route path="/register/employee" element={<RegisterEmployeePage />} />
           <Route path="/register/employer" element={<RegisterEmployerPage />} />
-          <Route path="/register/admin" element={<RegisterAdminPage />} />
+          <Route path="/register/admin" element={<Navigate to="/register" replace />} />
 
           <Route element={<MainLayout />}>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/jobs" element={<JobsPage />} />
-            <Route path="/jobs/:slug" element={<JobDetailsPage />} />
             <Route path="/companies" element={<CompaniesPage />} />
 
             <Route element={<ProtectedRoute />}>
@@ -49,6 +46,8 @@ export default function App() {
 
               <Route element={<RoleRoute allow={['candidate']} />}>
                 <Route path="/dashboard/candidate" element={<CandidateDashboard />} />
+                <Route path="/jobs" element={<JobsPage />} />
+                <Route path="/jobs/:slug" element={<JobDetailsPage />} />
               </Route>
 
               <Route element={<RoleRoute allow={['employer']} />}>

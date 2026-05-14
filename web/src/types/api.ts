@@ -119,6 +119,13 @@ export type ApiApplicationDetail = ApiApplicationListItem & {
   reviewed_at?: string | null;
   updated_at?: string;
   answers?: unknown[];
+  job?: {
+    id: number;
+    title: string;
+    company?: string | null;
+    location?: string | null;
+    work_type?: string | null;
+  };
 };
 
 export type ApiSavedJobRow = {

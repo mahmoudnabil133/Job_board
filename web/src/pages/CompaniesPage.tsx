@@ -70,7 +70,7 @@ export default function CompaniesPage() {
             {companies.map((c) => (
               <li key={c.id}>
                 <Link
-                  to={`/jobs?q=${encodeURIComponent(c.name)}`}
+                  to={`/?q=${encodeURIComponent(c.name)}`}
                   className="flex items-center justify-between bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:border-brand-red/40 transition-colors"
                 >
                   <span className="font-semibold text-gray-900">{c.name}</span>
