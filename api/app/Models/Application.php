@@ -40,4 +40,9 @@ class Application extends Model
     {
         return $this->hasMany(ApplicationAnswer::class);
     }
+
+    public function conversation()
+    {
+        return $this->hasOne(Conversation::class);
+    }
 }
