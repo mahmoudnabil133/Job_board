@@ -30,6 +30,33 @@ function uniqueCategoriesFromJobs(jobs: ApiJobListItem[]) {
   return [...m.entries()].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/** Merge categories from approved public listings and this employer's own jobs (any status). */
+async function loadCategoryOptionsForEmployer(token: string): Promise<{ id: number; name: string }[]> {
+  const merged = new Map<number, string>();
+  const ingest = (items: ApiJobListItem[]) => {
+    for (const row of uniqueCategoriesFromJobs(items)) merged.set(row.id, row.name);
+  };
+
+  const MAX_PUBLIC_PAGES = 8;
+  for (let page = 1; page <= MAX_PUBLIC_PAGES; page++) {
+    const res = await getPublicJobs({ per_page: 80, page });
+    if (isFetchJsonFailure(res)) break;
+    ingest(res.items);
+    const last = typeof res.meta?.last_page === 'number' ? res.meta.last_page : 1;
+    if (page >= last || res.items.length === 0) break;
+  }
+
+  for (let page = 1; page <= 40; page++) {
+    const res = await getEmployerJobs(token, page);
+    if (isFetchJsonFailure(res)) break;
+    ingest(res.items);
+    const last = typeof res.meta?.last_page === 'number' ? res.meta.last_page : 1;
+    if (page >= last || res.items.length === 0) break;
+  }
+
+  return [...merged.entries()].map(([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export default function EmployerDashboard() {
   const { token } = useAuth();
   const [tab, setTab] = useState<Tab>('overview');
@@ -108,9 +135,12 @@ export default function EmployerDashboard() {
   }, [token]);
 
   const loadCategoriesHint = useCallback(async () => {
-    const res = await getPublicJobs({ per_page: 100 });
-    if (!isFetchJsonFailure(res)) setCategories(uniqueCategoriesFromJobs(res.items));
-  }, []);
+    if (!token) {
+      setCategories([]);
+      return;
+    }
+    setCategories(await loadCategoryOptionsForEmployer(token));
+  }, [token]);
 
   useEffect(() => {
     let cancelled = false;
@@ -204,7 +234,7 @@ export default function EmployerDashboard() {
       return;
     }
     if (!jobCategoryId) {
-      setError('Choose a category (sourced from current marketplace listings).');
+      setError('Choose a category.');
       return;
     }
     setJobBusy(true);
@@ -304,7 +334,7 @@ export default function EmployerDashboard() {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Employer workspace</h1>
-            <p className="text-gray-500 text-sm mt-1">Company profile, job posts, and applications from the Laravel API.</p>
+            <p className="text-gray-500 text-sm mt-1">Company profile, job posts, and applications.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {tabBtn('overview', 'Overview')}
@@ -525,7 +555,7 @@ export default function EmployerDashboard() {
                     ))}
                   </select>
                   <p className="text-[11px] text-gray-500 mt-1">
-                    Categories are inferred from approved listings (no public category API). Add more jobs to the marketplace to widen this list, or ask an admin for IDs.
+                    Categories are loaded from your own postings and approved public listings. Ask an admin to add new categories if one is missing.
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -585,9 +615,13 @@ export default function EmployerDashboard() {
                       {formatJobType(j.work_type, j.employment_type)} · {relativeTime(j.created_at)} ·{' '}
                       <span className="uppercase font-bold text-amber-800">{j.status}</span>
                     </p>
-                    <Link to={`/jobs/${j.slug}`} className="text-xs text-brand-red font-semibold hover:underline">
-                      View public page
-                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => openEditJob(j)}
+                      className="text-xs text-brand-red font-semibold hover:underline"
+                    >
+                      Preview / edit listing
+                    </button>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -626,20 +660,28 @@ export default function EmployerDashboard() {
                       <span>
                         {a.job.title} · <span className="text-gray-500">{a.application_status}</span>
                       </span>
-                      <select
-                        className="text-xs border border-gray-200 rounded-md px-2 py-1 bg-white"
-                        value=""
-                        onChange={(e) => {
-                          const v = e.target.value;
-                          e.target.value = '';
-                          if (v) void onStatusChange(a.id, v);
-                        }}
-                      >
-                        <option value="">Set status…</option>
-                        <option value="shortlisted">Shortlisted</option>
-                        <option value="accepted">Accepted</option>
-                        <option value="rejected">Rejected</option>
-                      </select>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Link
+                          to={`/messages?application=${a.id}`}
+                          className="text-xs font-semibold text-brand-red hover:underline"
+                        >
+                          Message
+                        </Link>
+                        <select
+                          className="text-xs border border-gray-200 rounded-md px-2 py-1 bg-white"
+                          value=""
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            e.target.value = '';
+                            if (v) void onStatusChange(a.id, v);
+                          }}
+                        >
+                          <option value="">Set status…</option>
+                          <option value="shortlisted">Shortlisted</option>
+                          <option value="accepted">Accepted</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -660,7 +702,13 @@ export default function EmployerDashboard() {
                       {a.job.company} · {relativeTime(a.created_at)}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      to={`/messages?application=${a.id}`}
+                      className="text-xs font-semibold text-brand-red hover:underline"
+                    >
+                      Message
+                    </Link>
                     <span className="text-xs uppercase font-bold text-gray-600">{a.application_status}</span>
                     <select
                       className="text-xs border border-gray-200 rounded-md px-2 py-1 bg-white"

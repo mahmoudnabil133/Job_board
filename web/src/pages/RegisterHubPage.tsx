@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { User, Building2, Shield } from 'lucide-react';
+import { User, Building2 } from 'lucide-react';
 
 const cards = [
   {
@@ -16,13 +16,6 @@ const cards = [
     icon: Building2,
     accent: 'from-cyan-100 to-sky-50 border-cyan-200',
   },
-  {
-    to: '/register/admin',
-    title: 'Platform administrator',
-    description: 'For staff who moderate postings, approve jobs, and keep the marketplace fair.',
-    icon: Shield,
-    accent: 'from-indigo-100 to-sky-50 border-indigo-200',
-  },
 ] as const;
 
 export default function RegisterHubPage() {
@@ -38,13 +31,13 @@ export default function RegisterHubPage() {
       </header>
 
       <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-3xl">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-2">Choose how you will use the board</h1>
           <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto text-sm md:text-base">
             Each path matches a different account type in our system—pick the one that fits you. You will sign in on the next step after your account is created.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {cards.map(({ to, title, description, icon: Icon, accent }) => (
               <Link
                 key={to}

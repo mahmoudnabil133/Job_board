@@ -339,7 +339,6 @@ export default function CandidateDashboard() {
               <section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="p-6 border-b border-gray-100">
                   <h3 className="font-bold text-lg">My applications</h3>
-                  <p className="text-xs text-gray-500 mt-1">From GET /api/v1/candidate/applications</p>
                 </div>
                 <div className="divide-y divide-gray-100">
                   {applications.map((a) => (
@@ -355,9 +354,17 @@ export default function CandidateDashboard() {
                           {a.job.company} · {a.job.location} · {relativeTime(a.created_at)}
                         </p>
                       </div>
-                      <span className="self-start px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-gray-100 text-gray-700">
-                        {a.application_status}
-                      </span>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Link
+                          to={`/messages?application=${a.id}`}
+                          className="text-xs font-semibold text-brand-red hover:underline"
+                        >
+                          Message employer
+                        </Link>
+                        <span className="self-start px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-gray-100 text-gray-700">
+                          {a.application_status}
+                        </span>
+                      </div>
                     </div>
                   ))}
                   {applications.length === 0 && (

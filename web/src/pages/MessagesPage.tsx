@@ -1,19 +1,24 @@
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
+  getCandidateApplication,
   getConversationMessages,
   getConversations,
+  getEmployerApplication,
   markConversationRead,
+  postApplicationMessage,
   postConversationMessage,
 } from '../services/jobBoardApi';
-import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
-import type { ApiConversationListItem, ApiMessage } from '../types/api';
+import { flattenApiErrors, getApiEnvelopeData, isFetchJsonFailure } from '../lib/api';
+import { emitNavBadgesUpdate } from '../lib/navBadges';
+import type { ApiApplicationDetail, ApiConversationListItem, ApiMessage } from '../types/api';
 
 export default function MessagesPage() {
   const { token, user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedId = Number(searchParams.get('c') || '0') || null;
+  const applicationFromUrl = Number(searchParams.get('application') || '0') || null;
 
   const [conversations, setConversations] = useState<ApiConversationListItem[]>([]);
   const [messages, setMessages] = useState<ApiMessage[]>([]);
@@ -22,6 +27,12 @@ export default function MessagesPage() {
   const [loadingList, setLoadingList] = useState(true);
   const [loadingThread, setLoadingThread] = useState(false);
   const [sending, setSending] = useState(false);
+  const [bootstrapApp, setBootstrapApp] = useState<ApiApplicationDetail | null>(null);
+  const [bootstrapLoading, setBootstrapLoading] = useState(false);
+  const [bootstrapErr, setBootstrapErr] = useState<string | null>(null);
+
+  const conversationsRef = useRef(conversations);
+  conversationsRef.current = conversations;
 
   const loadConversations = useCallback(async () => {
     if (!token) return;
@@ -35,6 +46,7 @@ export default function MessagesPage() {
     }
     setError(null);
     setConversations(res.items);
+    emitNavBadgesUpdate({ mode: 'refetch-messages' });
   }, [token]);
 
   const loadMessages = useCallback(
@@ -49,7 +61,15 @@ export default function MessagesPage() {
         return;
       }
       setMessages(res.items);
+      const clearedUnread =
+        conversationsRef.current.find((c) => c.id === conversationId)?.unread_count ?? 0;
       await markConversationRead(token, conversationId);
+      setConversations((prev) =>
+        prev.map((c) => (c.id === conversationId ? { ...c, unread_count: 0 } : c)),
+      );
+      if (clearedUnread > 0) {
+        emitNavBadgesUpdate({ mode: 'conversation-read', clearedUnread });
+      }
     },
     [token],
   );
@@ -63,32 +83,125 @@ export default function MessagesPage() {
     else setMessages([]);
   }, [selectedId, loadMessages]);
 
+  const conversationForApplication = useMemo(() => {
+    if (!applicationFromUrl) return null;
+    return conversations.find((c) => c.application_id === applicationFromUrl) ?? null;
+  }, [applicationFromUrl, conversations]);
+
+  useEffect(() => {
+    if (loadingList || !applicationFromUrl || !conversationForApplication) return;
+    if (!searchParams.get('application')) return;
+    const cid = conversationForApplication.id;
+    const p = new URLSearchParams(searchParams);
+    p.delete('application');
+    p.set('c', String(cid));
+    setSearchParams(p, { replace: true });
+  }, [loadingList, applicationFromUrl, conversationForApplication?.id, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (!token || !user || !applicationFromUrl || loadingList) return;
+    if (conversationForApplication) {
+      setBootstrapApp(null);
+      setBootstrapErr(null);
+      setBootstrapLoading(false);
+      return;
+    }
+    if (user.role !== 'employer' && user.role !== 'candidate') {
+      setBootstrapApp(null);
+      setBootstrapErr('Messaging is only available for candidates and employers.');
+      return;
+    }
+    let cancelled = false;
+    setBootstrapLoading(true);
+    setBootstrapErr(null);
+    void (async () => {
+      const res =
+        user.role === 'employer'
+          ? await getEmployerApplication(token, applicationFromUrl)
+          : await getCandidateApplication(token, applicationFromUrl);
+      if (cancelled) return;
+      setBootstrapLoading(false);
+      if (isFetchJsonFailure(res)) {
+        setBootstrapApp(null);
+        setBootstrapErr(flattenApiErrors(res.data).join(' ') || 'Could not load this application.');
+        return;
+      }
+      setBootstrapApp(res.application);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [token, user, applicationFromUrl, loadingList, conversationForApplication]);
+
   const active = useMemo(
     () => conversations.find((c) => c.id === selectedId) ?? null,
     [conversations, selectedId],
   );
 
+  const showBootstrapComposer = Boolean(
+    applicationFromUrl && !loadingList && !conversationForApplication && user?.role !== 'admin',
+  );
+
   function selectConversation(id: number) {
     const p = new URLSearchParams(searchParams);
+    p.delete('application');
     p.set('c', String(id));
     setSearchParams(p);
   }
 
   async function onSend(e: FormEvent) {
     e.preventDefault();
-    if (!token || !selectedId || !body.trim()) return;
-    setSending(true);
-    setError(null);
-    const res = await postConversationMessage(token, selectedId, body.trim());
-    setSending(false);
-    if (isFetchJsonFailure(res)) {
-      setError(flattenApiErrors(res.data).join(' ') || 'Message not sent.');
+    if (!token || !body.trim()) return;
+
+    if (selectedId) {
+      setSending(true);
+      setError(null);
+      const res = await postConversationMessage(token, selectedId, body.trim());
+      setSending(false);
+      if (isFetchJsonFailure(res)) {
+        setError(flattenApiErrors(res.data).join(' ') || 'Message not sent.');
+        return;
+      }
+      setBody('');
+      void loadMessages(selectedId);
+      void loadConversations();
       return;
     }
-    setBody('');
-    void loadMessages(selectedId);
-    void loadConversations();
+
+    if (showBootstrapComposer && applicationFromUrl) {
+      setSending(true);
+      setError(null);
+      const res = await postApplicationMessage(token, applicationFromUrl, body.trim());
+      setSending(false);
+      if (isFetchJsonFailure(res)) {
+        setError(flattenApiErrors(res.data).join(' ') || 'Message not sent.');
+        return;
+      }
+      const msg = getApiEnvelopeData<{ conversation_id?: number }>(res.data);
+      let targetCid = msg?.conversation_id;
+      setBody('');
+      const refreshed = await getConversations(token, 1);
+      if (!isFetchJsonFailure(refreshed)) {
+        setConversations(refreshed.items);
+        emitNavBadgesUpdate({ mode: 'refetch-messages' });
+        if (!targetCid) {
+          targetCid = refreshed.items.find((c) => c.application_id === applicationFromUrl)?.id;
+        }
+      } else {
+        await loadConversations();
+      }
+      if (targetCid) {
+        const p = new URLSearchParams();
+        p.set('c', String(targetCid));
+        setSearchParams(p, { replace: true });
+        void loadMessages(targetCid);
+      }
+    }
   }
+
+  const canSend =
+    Boolean(body.trim()) &&
+    (selectedId || (showBootstrapComposer && applicationFromUrl && !bootstrapLoading && !bootstrapErr));
 
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-16">
@@ -129,11 +242,51 @@ export default function MessagesPage() {
           </aside>
 
           <section className="md:col-span-3 bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col min-h-[420px]">
-            {!selectedId && (
+            {!selectedId && !showBootstrapComposer && (
               <div className="flex-1 flex items-center justify-center text-gray-500 text-sm p-6">
                 Select a conversation to read and reply.
               </div>
             )}
+
+            {showBootstrapComposer && (
+              <>
+                <div className="border-b border-gray-100 px-4 py-3">
+                  <p className="font-bold text-gray-900">
+                    {bootstrapApp?.job?.title ?? `Application #${applicationFromUrl}`}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {bootstrapLoading
+                      ? 'Loading application…'
+                      : bootstrapErr
+                        ? bootstrapErr
+                        : 'Start the conversation — your first message opens the thread for both sides.'}
+                  </p>
+                </div>
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[300px]">
+                  {!bootstrapLoading && !bootstrapErr && (
+                    <p className="text-sm text-gray-500 text-center py-8">No messages yet. Send the first one below.</p>
+                  )}
+                </div>
+                {error && <p className="px-4 text-sm text-red-600">{error}</p>}
+                <form onSubmit={(e) => void onSend(e)} className="border-t border-gray-100 p-3 flex gap-2">
+                  <input
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    placeholder="Write a message…"
+                    disabled={bootstrapLoading || !!bootstrapErr}
+                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-red disabled:bg-gray-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={sending || !canSend}
+                    className="bg-brand-red text-white px-4 py-2 rounded-lg text-sm font-semibold disabled:opacity-50"
+                  >
+                    Send
+                  </button>
+                </form>
+              </>
+            )}
+
             {selectedId && (
               <>
                 <div className="border-b border-gray-100 px-4 py-3">

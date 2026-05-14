@@ -9,7 +9,7 @@ import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
 import type { ApiActivityLog } from '../types/api';
 
 export default function AccountSettingsPage() {
-  const { token, logout } = useAuth();
+  const { token, logout, user } = useAuth();
   const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -63,7 +63,14 @@ export default function AccountSettingsPage() {
         <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <h2 className="font-bold text-lg mb-4">Change password</h2>
           <p className="text-xs text-gray-500 mb-4">
-            Uses <code className="bg-gray-100 px-1 rounded">POST /api/v1/user/change-password</code>. All tokens are revoked after a successful change.
+            {user?.role === 'admin' ? (
+              <>
+                Uses <code className="bg-gray-100 px-1 rounded">POST /api/v1/user/change-password</code>. All tokens are
+                revoked after a successful change.
+              </>
+            ) : (
+              <>All active sessions are signed out after a successful password change.</>
+            )}
           </p>
           <form onSubmit={(e) => void onChangePassword(e)} className="space-y-4 max-w-md">
             {pwErr && <p className="text-sm text-red-800 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{pwErr}</p>}
@@ -100,9 +107,12 @@ export default function AccountSettingsPage() {
 
         <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <h2 className="font-bold text-lg mb-2">Your activity log</h2>
-          <p className="text-xs text-gray-500 mb-4">
-            From <code className="bg-gray-100 px-1 rounded">GET /api/v1/logs/my-activity-logs</code>.
-          </p>
+          {user?.role === 'admin' && (
+            <p className="text-xs text-gray-500 mb-4">
+              From <code className="bg-gray-100 px-1 rounded">GET /api/v1/logs/my-activity-logs</code>.
+            </p>
+          )}
+          {user?.role !== 'admin' && <p className="text-xs text-gray-500 mb-4">Recent actions on your account.</p>}
           {logsErr && <p className="text-sm text-red-700 mb-3">{logsErr}</p>}
           <ul className="divide-y divide-gray-100 border border-gray-100 rounded-lg overflow-hidden">
             {logs.map((row) => (

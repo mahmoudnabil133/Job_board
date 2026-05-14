@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getUnreadNotificationCount } from '../services/jobBoardApi';
+import { getUnreadNotificationCount, getTotalUnreadMessages } from '../services/jobBoardApi';
 import { isFetchJsonFailure } from '../lib/api';
+import { NAV_BADGES_EVENT, type NavBadgesDetail } from '../lib/navBadges';
 import type { AuthUserRole } from '../types';
 
 function dashboardHref(role: AuthUserRole): string {
@@ -25,26 +26,103 @@ function initials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
+function badgeSpan(count: number) {
+  if (count <= 0) return null;
+  return (
+    <span className="absolute -top-1 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-red text-white text-[10px] font-bold flex items-center justify-center">
+      {count > 99 ? '99+' : count}
+    </span>
+  );
+}
+
 export default function Navbar() {
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
-  const [unread, setUnread] = useState(0);
+  const [unreadAlerts, setUnreadAlerts] = useState(0);
+  const [unreadMessages, setUnreadMessages] = useState(0);
+
+  const canMessage = user?.role === 'candidate' || user?.role === 'employer';
+
+  const refetchAlerts = useCallback(async () => {
+    if (!token) {
+      setUnreadAlerts(0);
+      return;
+    }
+    const res = await getUnreadNotificationCount(token);
+    if (!isFetchJsonFailure(res)) setUnreadAlerts(res.count);
+  }, [token]);
+
+  const refetchMessages = useCallback(async () => {
+    if (!token) {
+      setUnreadMessages(0);
+      return;
+    }
+    if (user?.role !== 'candidate' && user?.role !== 'employer') {
+      setUnreadMessages(0);
+      return;
+    }
+    const n = await getTotalUnreadMessages(token);
+    setUnreadMessages(n);
+  }, [token, user?.role]);
+
+  const refetchBoth = useCallback(async () => {
+    await Promise.all([refetchAlerts(), refetchMessages()]);
+  }, [refetchAlerts, refetchMessages]);
 
   useEffect(() => {
     if (!token) {
-      setUnread(0);
+      setUnreadAlerts(0);
+      setUnreadMessages(0);
       return;
     }
     let cancelled = false;
     void (async () => {
-      const res = await getUnreadNotificationCount(token);
-      if (cancelled || isFetchJsonFailure(res)) return;
-      setUnread(res.count);
+      await refetchBoth();
+      if (cancelled) return;
     })();
     return () => {
       cancelled = true;
     };
-  }, [token, user?.id]);
+  }, [token, user?.id, refetchBoth]);
+
+  useEffect(() => {
+    function onBadges(ev: Event) {
+      const ce = ev as CustomEvent<NavBadgesDetail>;
+      const d = ce.detail;
+      if (!d) {
+        void refetchBoth();
+        return;
+      }
+      switch (d.mode) {
+        case 'refetch-alerts':
+          void refetchAlerts();
+          break;
+        case 'refetch-messages':
+          void refetchMessages();
+          break;
+        case 'refetch-both':
+          void refetchBoth();
+          break;
+        case 'delta-alerts':
+          setUnreadAlerts((u) => Math.max(0, u + d.delta));
+          break;
+        case 'delta-messages':
+          setUnreadMessages((u) => Math.max(0, u + d.delta));
+          break;
+        case 'message-notification-read':
+          setUnreadAlerts((u) => Math.max(0, u - 1));
+          setUnreadMessages((u) => Math.max(0, u - 1));
+          break;
+        case 'conversation-read':
+          setUnreadMessages((u) => Math.max(0, u - d.clearedUnread));
+          break;
+        default:
+          void refetchBoth();
+      }
+    }
+    window.addEventListener(NAV_BADGES_EVENT, onBadges);
+    return () => window.removeEventListener(NAV_BADGES_EVENT, onBadges);
+  }, [refetchAlerts, refetchMessages, refetchBoth]);
 
   async function handleLogout() {
     await logout();
@@ -56,15 +134,17 @@ export default function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-brand-red flex items-center justify-center text-white font-black text-lg rounded-lg">
-            ITI
+          JW
           </div>
-          <span className="font-bold text-xl tracking-tight text-gray-900">Careers</span>
+          <span className="font-bold text-xl tracking-tight text-gray-900">Job Work</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/jobs" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
-            Find Jobs
-          </Link>
+          {user?.role === 'candidate' && (
+            <Link to="/jobs" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+              Find Jobs
+            </Link>
+          )}
           <Link to="/companies" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
             Companies
           </Link>
@@ -76,14 +156,14 @@ export default function Navbar() {
                 className="relative text-sm font-medium text-gray-600 hover:text-brand-red transition-colors"
               >
                 Alerts
-                {unread > 0 && (
-                  <span className="absolute -top-1 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-red text-white text-[10px] font-bold flex items-center justify-center">
-                    {unread > 99 ? '99+' : unread}
-                  </span>
-                )}
+                {badgeSpan(unreadAlerts)}
               </Link>
-              <Link to="/messages" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+              <Link
+                to="/messages"
+                className="relative text-sm font-medium text-gray-600 hover:text-brand-red transition-colors"
+              >
                 Messages
+                {canMessage ? badgeSpan(unreadMessages) : null}
               </Link>
               <Link to="/settings" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
                 Settings
