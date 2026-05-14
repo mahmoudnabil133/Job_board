@@ -18,6 +18,7 @@ import {
 import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
 import type { ApiApplicationListItem, ApiCompanyResource, ApiJobListItem } from '../types/api';
 import { formatJobType, relativeTime } from '../lib/format';
+import AuthAlertModal from '../components/AuthAlertModal';
 
 type Tab = 'overview' | 'company' | 'jobs' | 'applications';
 
@@ -67,6 +68,7 @@ export default function EmployerDashboard() {
 
   const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
   const [jobApps, setJobApps] = useState<ApiApplicationListItem[]>([]);
+  const [successModal, setSuccessModal] = useState<{ title: string; message: string } | null>(null);
 
   const loadCompany = useCallback(async () => {
     if (!token) return;
@@ -132,6 +134,7 @@ export default function EmployerDashboard() {
   async function onSaveCompany(e: FormEvent) {
     e.preventDefault();
     if (!token) return;
+    const wasCreate = !company;
     setCBusy(true);
     setError(null);
     const body = {
@@ -150,6 +153,18 @@ export default function EmployerDashboard() {
       return;
     }
     await loadCompany();
+    if (wasCreate) {
+      setSuccessModal({
+        title: 'Company profile created',
+        message:
+          'Your company was saved successfully. You can post jobs from the Jobs tab. Each new listing is reviewed by an ITI Careers admin before it appears on the public board.',
+      });
+    } else {
+      setSuccessModal({
+        title: 'Company profile updated',
+        message: 'Your company details were saved successfully.',
+      });
+    }
   }
 
   function openNewJob() {
@@ -194,6 +209,7 @@ export default function EmployerDashboard() {
     }
     setJobBusy(true);
     setError(null);
+    const wasNewJob = !editingJobId;
     const body: Record<string, unknown> = {
       company_id: company.id,
       category_id: jobCategoryId,
@@ -222,6 +238,19 @@ export default function EmployerDashboard() {
     }
     setShowJobForm(false);
     await loadJobs();
+    if (wasNewJob) {
+      setSuccessModal({
+        title: 'Job submitted for admin review',
+        message:
+          'Your posting is pending approval. Admins can accept or reject it from their dashboard. You will receive a notification when a decision is made. If it is approved, the role will appear on the public job listings.',
+      });
+    } else {
+      setSuccessModal({
+        title: 'Job updated',
+        message:
+          'Your changes were saved. If this role was still awaiting review, it remains in the admin queue until a decision is made.',
+      });
+    }
   }
 
   async function onDeleteJob(id: number) {
@@ -657,6 +686,14 @@ export default function EmployerDashboard() {
           </section>
         )}
       </div>
+
+      <AuthAlertModal
+        open={!!successModal}
+        title={successModal?.title ?? ''}
+        message={successModal?.message ?? ''}
+        onClose={() => setSuccessModal(null)}
+        variant="success"
+      />
     </div>
   );
 }
