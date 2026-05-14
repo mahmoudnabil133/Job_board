@@ -16,7 +16,8 @@ use App\Http\Controllers\Api\V1\Employer\JobController as EmployerJobController;
 use App\Http\Controllers\Api\V1\Candidate\JobSearchController;
 use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
 use App\Http\Controllers\Api\V1\NotificationController;
-
+use App\Http\Controllers\Api\V1\ConversationController;
+use App\Http\Controllers\Api\V1\ApplicationMessageController;
 
 // Public routes for authentication
 Route::prefix('v1/auth')->group(function () {
@@ -46,7 +47,19 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
     // Activity logs for users
     Route::get('logs/my-activity-logs', [ActivityLogController::class, 'myActivityLogs']);
+
+    // Employer ↔ candidate messaging (per application)
+    Route::get('/conversations', [ConversationController::class, 'index']);
+    Route::get('/conversations/{conversation}/messages', [ConversationController::class, 'messages']);
+    Route::post('/conversations/{conversation}/messages', [ConversationController::class, 'store']);
+    Route::patch('/conversations/{conversation}/read', [ConversationController::class, 'markRead']);
+
+    // Application messaging (per application)
+    Route::get('/applications/{application}/messages', [ApplicationMessageController::class, 'index']);
+    Route::post('/applications/{application}/messages', [ApplicationMessageController::class, 'store']);
+
 });
+
 
 // Public routes - Job search
 Route::prefix('v1')->group(function () {
