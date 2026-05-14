@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { fetchJson, isFetchJsonFailure } from '../lib/api';
+import { fetchJson, getApiEnvelopeData, isFetchJsonFailure } from '../lib/api';
 import type { AuthUser } from '../types';
 
 const TOKEN_KEY = 'iti_careers_token';
@@ -32,13 +32,7 @@ export type RegisterPayload = {
   role: 'candidate' | 'employer' | 'admin';
 };
 
-type MeResponse = {
-  success?: boolean;
-  user?: AuthUser;
-};
-
-type AuthSuccessResponse = {
-  success?: boolean;
+type AuthCredentialsPayload = {
   user?: AuthUser;
   token?: string;
 };
@@ -70,10 +64,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!cancelled) setInitializing(false);
         return;
       }
-      const res = await fetchJson<MeResponse>('/v1/auth/me', { method: 'GET', token: t });
+      const res = await fetchJson<unknown>('/v1/user/me', { method: 'GET', token: t });
       if (cancelled) return;
-      if (res.ok && res.data.user) {
-        setUser(res.data.user);
+      const me = res.ok ? getApiEnvelopeData<AuthUser>(res.data) : undefined;
+      if (me && typeof me === 'object' && 'id' in me && 'email' in me) {
+        setUser(me);
         setToken(t);
       } else {
         localStorage.removeItem(TOKEN_KEY);
@@ -89,15 +84,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<{ ok: true } | AuthActionFail> => {
-    const res = await fetchJson<AuthSuccessResponse>('/v1/auth/login', {
+    const res = await fetchJson<unknown>('/v1/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
     if (isFetchJsonFailure(res)) {
       return { ok: false as const, status: res.status, data: res.data };
     }
-    const u = res.data.user;
-    const t = res.data.token;
+    const creds = getApiEnvelopeData<AuthCredentialsPayload>(res.data) ?? (res.data as AuthCredentialsPayload);
+    const u = creds?.user;
+    const t = creds?.token;
     if (u && t) {
       setSession(t, u);
       return { ok: true as const };
@@ -110,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [setSession]);
 
   const register = useCallback(async (payload: RegisterPayload): Promise<{ ok: true } | AuthActionFail> => {
-    const res = await fetchJson<AuthSuccessResponse>('/v1/auth/register', {
+    const res = await fetchJson<unknown>('/v1/auth/register', {
       method: 'POST',
       body: JSON.stringify(payload),
     });

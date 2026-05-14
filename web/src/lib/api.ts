@@ -40,6 +40,14 @@ export function getPrimaryApiMessage(data: unknown, fallback: string): string {
   return list[0] ?? fallback;
 }
 
+/** Laravel controllers return `{ status, message?, data }`; read the inner payload. */
+export function getApiEnvelopeData<T>(body: unknown): T | undefined {
+  if (body == null || typeof body !== 'object') return undefined;
+  const o = body as { data?: unknown };
+  if ('data' in o && o.data !== undefined) return o.data as T;
+  return body as T;
+}
+
 async function parseJsonSafe(res: Response): Promise<unknown> {
   const text = await res.text();
   if (!text) return {};
