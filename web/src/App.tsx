@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleRoute from './components/RoleRoute';
@@ -11,6 +11,7 @@ import MainLayout from './layouts/MainLayout';
 import LandingPage from './pages/LandingPage';
 import JobsPage from './pages/JobsPage';
 import JobDetailsPage from './pages/JobDetailsPage';
+import CompaniesPage from './pages/CompaniesPage';
 import CandidateDashboard from './pages/CandidateDashboard';
 import EmployerDashboard from './pages/EmployerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -18,8 +19,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterHubPage from './pages/RegisterHubPage';
 import RegisterEmployeePage from './pages/RegisterEmployeePage';
 import RegisterEmployerPage from './pages/RegisterEmployerPage';
-import RegisterAdminPage from './pages/RegisterAdminPage';
 import NotFoundPage from './pages/NotFoundPage';
+import NotificationsPage from './pages/NotificationsPage';
+import MessagesPage from './pages/MessagesPage';
+import AccountSettingsPage from './pages/AccountSettingsPage';
 
 export default function App() {
   return (
@@ -30,16 +33,21 @@ export default function App() {
           <Route path="/register" element={<RegisterHubPage />} />
           <Route path="/register/employee" element={<RegisterEmployeePage />} />
           <Route path="/register/employer" element={<RegisterEmployerPage />} />
-          <Route path="/register/admin" element={<RegisterAdminPage />} />
+          <Route path="/register/admin" element={<Navigate to="/register" replace />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/jobs" element={<JobsPage />} />
-              <Route path="/jobs/:id" element={<JobDetailsPage />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/companies" element={<CompaniesPage />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/settings" element={<AccountSettingsPage />} />
 
               <Route element={<RoleRoute allow={['candidate']} />}>
                 <Route path="/dashboard/candidate" element={<CandidateDashboard />} />
+                <Route path="/jobs" element={<JobsPage />} />
+                <Route path="/jobs/:slug" element={<JobDetailsPage />} />
               </Route>
 
               <Route element={<RoleRoute allow={['employer']} />}>

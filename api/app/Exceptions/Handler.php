@@ -119,7 +119,7 @@ class Handler extends ExceptionHandler
             $statusCode = $e->getStatusCode();
             $message = $e->getMessage() ?: 'HTTP Error';
         }
-    
+
         // Include debug info in non-production
         // if (config('app.debug')) {
         //     $errors['debug'] = [

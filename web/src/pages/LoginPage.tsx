@@ -26,7 +26,7 @@ export default function LoginPage() {
     const st = location.state as { registered?: boolean; role?: string } | null;
     if (st?.registered) {
       const roleLabel =
-        st.role === 'employer' ? 'employer workspace' : st.role === 'admin' ? 'administrator access' : 'candidate profile';
+        st.role === 'employer' ? 'employer workspace' : 'candidate profile';
       setBanner(`Success — your ${roleLabel} was created. Sign in below to open the job board.`);
       navigate(location.pathname, { replace: true, state: {} });
     }

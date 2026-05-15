@@ -1,11 +1,11 @@
-import { X, Briefcase, AlertCircle } from 'lucide-react';
+import { X, Briefcase, AlertCircle, CheckCircle } from 'lucide-react';
 
 type Props = {
   open: boolean;
   title: string;
   message: string;
   onClose: () => void;
-  variant?: 'error' | 'info';
+  variant?: 'error' | 'info' | 'success';
 };
 
 export default function AuthAlertModal({
@@ -17,11 +17,13 @@ export default function AuthAlertModal({
 }: Props) {
   if (!open) return null;
 
-  const Icon = variant === 'error' ? AlertCircle : Briefcase;
+  const Icon = variant === 'error' ? AlertCircle : variant === 'success' ? CheckCircle : Briefcase;
   const accent =
     variant === 'error'
       ? 'border-red-200 bg-red-50/90 text-red-800'
-      : 'border-sky-200 bg-sky-50/90 text-sky-900';
+      : variant === 'success'
+        ? 'border-emerald-200 bg-emerald-50/90 text-emerald-900'
+        : 'border-sky-200 bg-sky-50/90 text-sky-900';
 
   return (
     <div

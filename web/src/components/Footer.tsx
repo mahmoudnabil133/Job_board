@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Footer() {
+  const { user } = useAuth();
   return (
     <footer className="bg-gray-900 text-white pt-20 pb-10">
       <div className="container mx-auto px-4">
@@ -8,9 +10,9 @@ export default function Footer() {
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-6">
               <div className="w-8 h-8 bg-brand-red flex items-center justify-center text-white font-black text-lg rounded-lg">
-                ITI
+                JW
               </div>
-              <span className="font-bold text-xl tracking-tight">Careers</span>
+              <span className="font-bold text-xl tracking-tight">Job Work</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
               Egypt's premier talent gateway, bridge the gap between education and professional excellence.
@@ -20,7 +22,13 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-brand-red">For Candidates</h4>
             <ul className="space-y-4 text-gray-400 text-sm">
-              <li><Link to="/jobs" className="hover:text-white transition-colors">Browse Jobs</Link></li>
+              {user?.role === 'candidate' && (
+                <li>
+                  <Link to="/jobs" className="hover:text-white transition-colors">
+                    Browse Jobs
+                  </Link>
+                </li>
+              )}
               <li><Link to="/profile" className="hover:text-white transition-colors">Career Advice</Link></li>
               <li><Link to="/faq" className="hover:text-white transition-colors">Application Tips</Link></li>
             </ul>
