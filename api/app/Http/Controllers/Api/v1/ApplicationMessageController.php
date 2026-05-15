@@ -12,6 +12,57 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Get(
+ *     path="/v1/applications/{application}/messages",
+ *     operationId="getApplicationMessages",
+ *     tags={"Applications"},
+ *     summary="Get application messages",
+ *     description="Retrieve all messages for a specific application",
+ *     security={{"sanctum":{}}},
+ *     @OA\Parameter(name="application", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Messages retrieved successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="data", type="array", items={}),
+ *             @OA\Property(
+ *                 property="meta",
+ *                 @OA\Property(property="total", type="integer"),
+ *                 @OA\Property(property="per_page", type="integer"),
+ *                 @OA\Property(property="current_page", type="integer"),
+ *                 @OA\Property(property="last_page", type="integer")
+ *             )
+ *         )
+ *     )
+ * )
+ * 
+ * @OA\Post(
+ *     path="/v1/applications/{application}/messages",
+ *     operationId="sendApplicationMessage",
+ *     tags={"Applications"},
+ *     summary="Send message on application",
+ *     description="Send a message related to a specific application",
+ *     security={{"sanctum":{}}},
+ *     @OA\Parameter(name="application", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"body"},
+ *             @OA\Property(property="body", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Message sent successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="data", type="object")
+ *         )
+ *     )
+ * )
+ */
 class ApplicationMessageController extends BaseController
 {
     //

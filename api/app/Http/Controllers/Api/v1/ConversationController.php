@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-
-
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Message\StoreMessageRequest;
 use App\Http\Resources\ConversationListResource;
@@ -14,6 +12,99 @@ use App\Services\ConversationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Get(
+ *     path="/v1/conversations",
+ *     operationId="getConversations",
+ *     tags={"Conversations"},
+ *     summary="Get user conversations",
+ *     description="Retrieve all conversations for the authenticated user",
+ *     security={{"sanctum":{}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Conversations retrieved successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="data", type="array", items={}),
+ *             @OA\Property(
+ *                 property="meta",
+ *                 @OA\Property(property="total", type="integer"),
+ *                 @OA\Property(property="per_page", type="integer"),
+ *                 @OA\Property(property="current_page", type="integer"),
+ *                 @OA\Property(property="last_page", type="integer")
+ *             )
+ *         )
+ *     )
+ * )
+ * 
+ * @OA\Get(
+ *     path="/v1/conversations/{conversation}/messages",
+ *     operationId="getConversationMessages",
+ *     tags={"Conversations"},
+ *     summary="Get messages in conversation",
+ *     description="Retrieve all messages for a specific conversation",
+ *     security={{"sanctum":{}}},
+ *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Messages retrieved successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="data", type="array", items={}),
+ *             @OA\Property(
+ *                 property="meta",
+ *                 @OA\Property(property="total", type="integer"),
+ *                 @OA\Property(property="per_page", type="integer"),
+ *                 @OA\Property(property="current_page", type="integer"),
+ *                 @OA\Property(property="last_page", type="integer")
+ *             )
+ *         )
+ *     )
+ * )
+ * 
+ * @OA\Post(
+ *     path="/v1/conversations/{conversation}/messages",
+ *     operationId="sendConversationMessage",
+ *     tags={"Conversations"},
+ *     summary="Send message in conversation",
+ *     description="Send a new message in a conversation",
+ *     security={{"sanctum":{}}},
+ *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"body"},
+ *             @OA\Property(property="body", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Message sent successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="data", type="object")
+ *         )
+ *     )
+ * )
+ * 
+ * @OA\Patch(
+ *     path="/v1/conversations/{conversation}/read",
+ *     operationId="markConversationAsRead",
+ *     tags={"Conversations"},
+ *     summary="Mark conversation as read",
+ *     description="Mark all messages in a conversation as read",
+ *     security={{"sanctum":{}}},
+ *     @OA\Parameter(name="conversation", in="path", required=true, @OA\Schema(type="integer")),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Messages marked as read",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="data", @OA\Property(property="marked_read", type="integer"))
+ *         )
+ *     )
+ * )
+ */
 class ConversationController extends BaseController
 {
     //
