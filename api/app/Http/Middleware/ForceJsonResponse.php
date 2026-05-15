@@ -15,7 +15,19 @@ class ForceJsonResponse
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->is(
+            'docs',
+            'docs/*',
+            'api/documentation',
+            'api/documentation/*',
+            'api/openapi.json',
+            'api/oauth2-callback'
+        )) {
+            return $next($request);
+        }
+
         $request->headers->set('Accept', 'application/json');
+
         return $next($request);
     }
 }
