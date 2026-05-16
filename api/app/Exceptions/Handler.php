@@ -121,14 +121,14 @@ class Handler extends ExceptionHandler
         }
 
         // Include debug info in non-production
-        // if (config('app.debug')) {
-        //     $errors['debug'] = [
-        //         'exception' => get_class($e),
-        //         'message' => $e->getMessage(),
-        //         'file' => $e->getFile(),
-        //         'line' => $e->getLine(),
-        //     ];
-        // }
+        if (config('app.debug')) {
+            $errors['debug'] = [
+                'exception' => get_class($e),
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ];
+        }
         return response()->json([
             'status' => 'error',
             'message' => $message,
