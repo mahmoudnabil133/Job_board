@@ -461,3 +461,198 @@ export async function postApplicationMessage(token: string, applicationId: numbe
     body: JSON.stringify({ body }),
   });
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Dashboard API types & calls
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface DailyCount {
+  date: string;
+  count: number;
+}
+
+export interface StatusCount {
+  status: string;
+  count: number;
+}
+
+export interface CandidateDashboardStats {
+  total_applications: number;
+  status_breakdown: Record<string, number>;
+  status_chart: StatusCount[];
+  saved_jobs_count: number;
+  profile_complete: boolean;
+  recent_applications: Array<{
+    id: number;
+    job_title: string;
+    job_slug: string | null;
+    company: string;
+    status: string;
+    created_at: string;
+  }>;
+}
+
+export async function getCandidateDashboardStats(token: string) {
+  const res = await fetchJson<unknown>('/v1/candidate/dashboard/stats', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  const data = getApiEnvelopeData<CandidateDashboardStats>(res.data);
+  return { ok: true as const, data };
+}
+
+export async function getCandidateApplicationsOverTime(token: string, period: '7d' | '30d' | '90d' = '30d') {
+  const res = await fetchJson<unknown>(`/v1/candidate/dashboard/applications-over-time?period=${period}`, {
+    method: 'GET',
+    token,
+  });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<DailyCount>(res.data),
+  };
+}
+
+export async function getCandidateActivityTimeline(token: string) {
+  const res = await fetchJson<unknown>('/v1/candidate/dashboard/activity-timeline', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<{ id: number; action: string; description: string; created_at: string }>(res.data),
+  };
+}
+
+export interface EmployerDashboardStats {
+  total_jobs: number;
+  active_jobs: number;
+  pending_jobs: number;
+  rejected_jobs: number;
+  total_applications: number;
+  status_breakdown: Record<string, number>;
+  jobs_by_work_type: Array<{ type: string; count: number }>;
+  recent_applications: Array<{
+    id: number;
+    job_title: string;
+    candidate: string;
+    status: string;
+    created_at: string;
+  }>;
+}
+
+export async function getEmployerDashboardStats(token: string) {
+  const res = await fetchJson<unknown>('/v1/employer/dashboard/stats', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  const data = getApiEnvelopeData<EmployerDashboardStats>(res.data);
+  return { ok: true as const, data };
+}
+
+export async function getEmployerApplicationsOverTime(token: string, period: '7d' | '30d' | '90d' = '30d') {
+  const res = await fetchJson<unknown>(`/v1/employer/dashboard/applications-over-time?period=${period}`, {
+    method: 'GET',
+    token,
+  });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<DailyCount>(res.data),
+  };
+}
+
+export async function getEmployerTopJobs(token: string) {
+  const res = await fetchJson<unknown>('/v1/employer/dashboard/top-jobs', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<{
+      id: number;
+      title: string;
+      status: string;
+      applications_count: number;
+    }>(res.data),
+  };
+}
+
+export interface AdminDashboardStats {
+  total_users: number;
+  total_employers: number;
+  total_candidates: number;
+  total_admins: number;
+  total_jobs: number;
+  pending_jobs: number;
+  approved_jobs: number;
+  rejected_jobs: number;
+  total_applications: number;
+  total_companies: number;
+  new_users_this_week: number;
+  new_jobs_this_week: number;
+  new_apps_this_week: number;
+  application_statuses: Record<string, number>;
+}
+
+export async function getAdminDashboardStats(token: string) {
+  const res = await fetchJson<unknown>('/v1/admin/dashboard/stats', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  const data = getApiEnvelopeData<AdminDashboardStats>(res.data);
+  return { ok: true as const, data };
+}
+
+export async function getAdminRegistrationsOverTime(token: string, period: '7d' | '30d' | '90d' = '30d') {
+  const res = await fetchJson<unknown>(`/v1/admin/dashboard/registrations-over-time?period=${period}`, {
+    method: 'GET',
+    token,
+  });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<DailyCount>(res.data),
+  };
+}
+
+export async function getAdminJobsOverTime(token: string, period: '7d' | '30d' | '90d' = '30d') {
+  const res = await fetchJson<unknown>(`/v1/admin/dashboard/jobs-over-time?period=${period}`, {
+    method: 'GET',
+    token,
+  });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<DailyCount>(res.data),
+  };
+}
+
+export async function getAdminApplicationsOverTime(token: string, period: '7d' | '30d' | '90d' = '30d') {
+  const res = await fetchJson<unknown>(`/v1/admin/dashboard/applications-over-time?period=${period}`, {
+    method: 'GET',
+    token,
+  });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<DailyCount>(res.data),
+  };
+}
+
+export async function getAdminUsersByRole(token: string) {
+  const res = await fetchJson<unknown>('/v1/admin/dashboard/users-by-role', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<{ role: string; count: number }>(res.data),
+  };
+}
+
+export async function getAdminJobsByStatus(token: string) {
+  const res = await fetchJson<unknown>('/v1/admin/dashboard/jobs-by-status', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<{ status: string; count: number }>(res.data),
+  };
+}
+
+export async function getAdminTopCategories(token: string) {
+  const res = await fetchJson<unknown>('/v1/admin/dashboard/top-categories', { method: 'GET', token });
+  if (isFetchJsonFailure(res)) return res;
+  return {
+    ok: true as const,
+    data: getResourceCollectionItems<{ name: string; count: number }>(res.data),
+  };
+}
