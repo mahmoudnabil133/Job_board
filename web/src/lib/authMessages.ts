@@ -8,7 +8,15 @@ const REGISTER_FALLBACK =
 
 export function loginFailureMessage(status: number, data: unknown): string {
   if (status >= 500) {
-    return 'Our hiring platform is temporarily unavailable—like a busy recruiter’s inbox. Please wait a moment and try signing in again.';
+    const primary = getPrimaryApiMessage(data, '');
+    if (primary && primary !== 'Validation errorrrs') {
+      return primary;
+    }
+    // Fallback: check for common Laravel error response formats
+    const d = data as any;
+    if (d?.message && typeof d.message === 'string') return d.message;
+    if (d?.error && typeof d.error === 'string') return d.error;
+    return 'Our hiring platform is temporarily unavailable—like a busy recruiter\'s inbox. Please wait a moment and try signing in again.';
   }
   const flat = flattenApiErrors(data);
   const joined = flat.join(' ');
@@ -23,6 +31,14 @@ export function loginFailureMessage(status: number, data: unknown): string {
 
 export function registerFailureMessage(status: number, data: unknown): string {
   if (status >= 500) {
+    const primary = getPrimaryApiMessage(data, '');
+    if (primary && primary !== 'Validation errorrrs') {
+      return primary;
+    }
+    // Fallback: check for common Laravel error response formats
+    const d = data as any;
+    if (d?.message && typeof d.message === 'string') return d.message;
+    if (d?.error && typeof d.error === 'string') return d.error;
     return 'We hit a snag saving your profile—our servers are taking a coffee break. Please try submitting your registration again shortly.';
   }
   const flat = flattenApiErrors(data);

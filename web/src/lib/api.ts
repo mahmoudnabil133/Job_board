@@ -71,10 +71,14 @@ export function getResourceCollectionMeta(body: unknown): Record<string, unknown
 
 async function parseJsonSafe(res: Response): Promise<unknown> {
   const text = await res.text();
-  if (!text) return {};
+  if (!text) {
+    if (!res.ok) console.error('[parseJsonSafe] Empty response body from', res.url, 'status:', res.status);
+    return {};
+  }
   try {
     return JSON.parse(text) as unknown;
-  } catch {
+  } catch (e) {
+    if (!res.ok) console.error('[parseJsonSafe] Failed to parse JSON from', res.url, '— Raw text:', text);
     return {};
   }
 }
@@ -100,10 +104,23 @@ export async function fetchJson<T>(path: string, options: FetchJsonOptions = {})
   }
   if (token) headers.set('Authorization', `Bearer ${token}`);
 
-  const res = await fetch(apiUrl(path), { ...rest, headers });
-  const data = await parseJsonSafe(res);
-  if (!res.ok) {
-    return { ok: false as const, status: res.status, data };
+  const url = apiUrl(path);
+  console.log(`[fetchJson] ${rest.method || 'GET'} ${url}`, { body: rest.body, headers: Object.fromEntries(headers) });
+
+  try {
+    const res = await fetch(url, { ...rest, headers });
+    const data = await parseJsonSafe(res);
+    if (!res.ok) {
+      console.error(`[fetchJson] Failed ${rest.method || 'GET'} ${url} — status: ${res.status}`, data);
+      return { ok: false as const, status: res.status, data };
+    }
+    return { ok: true as const, data: data as T };
+  } catch (error) {
+    console.error(`[fetchJson] Fetch error for ${url}:`, error);
+    return {
+      ok: false as const,
+      status: 0,
+      data: { message: error instanceof Error ? error.message : String(error) },
+    };
   }
-  return { ok: true as const, data: data as T };
 }

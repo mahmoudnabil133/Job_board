@@ -89,6 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify({ email, password }),
     });
     if (isFetchJsonFailure(res)) {
+      console.error('[Login Error]', { status: res.status, data: res.data });
       return { ok: false as const, status: res.status, data: res.data };
     }
     const creds = getApiEnvelopeData<AuthCredentialsPayload>(res.data) ?? (res.data as AuthCredentialsPayload);
@@ -111,6 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify(payload),
     });
     if (isFetchJsonFailure(res)) {
+      console.error('[Registration Error]', { status: res.status, data: res.data, payload });
       return { ok: false as const, status: res.status, data: res.data };
     }
     return { ok: true as const };
