@@ -7,7 +7,9 @@ import {
   submitApplication,
   toggleSavedJob,
 } from '../services/jobBoardApi';
+import { GlassCard } from '../components/GlassCard';
 import { flattenApiErrors, getApiEnvelopeData, isFetchJsonFailure } from '../lib/api';
+
 import type { ApiApplicationQuestion, ApiJobDetail } from '../types/api';
 import { formatJobType, formatSalaryRange, relativeTime } from '../lib/format';
 
@@ -169,7 +171,7 @@ export default function JobDetailsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <GlassCard className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
               <div className="flex gap-6 items-start mb-8">
                 <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-500 font-bold text-sm shrink-0 overflow-hidden">
                   {job.company?.logo ? (
@@ -216,11 +218,11 @@ export default function JobDetailsPage() {
                   <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">{job.benefits}</p>
                 </section>
               )}
-            </div>
+            </GlassCard>
           </div>
 
           <aside className="space-y-6">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <GlassCard className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
               <div className="space-y-3 mb-6 text-sm">
                 <div className="flex justify-between gap-2">
                   <span className="text-gray-500">Salary</span>
@@ -355,10 +357,10 @@ export default function JobDetailsPage() {
               >
                 {saved ? 'Remove from saved' : 'Save for later'}
               </button>
-            </div>
+            </GlassCard>
 
             {job.company && (
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+              <GlassCard className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                 <h3 className="font-bold mb-3 text-gray-900">About the company</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{job.company.description || 'Details appear on employer profiles.'}</p>
                 {job.company.website && (
@@ -371,7 +373,7 @@ export default function JobDetailsPage() {
                     Visit website
                   </a>
                 )}
-              </div>
+              </GlassCard>
             )}
           </aside>
         </div>

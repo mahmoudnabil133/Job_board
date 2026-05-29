@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { GlassCard } from '../components/GlassCard';
 import { getPublicJobs } from '../services/jobBoardApi';
+
 import { isFetchJsonFailure } from '../lib/api';
 import type { ApiJobListItem, JobsListQuery } from '../types/api';
 import { formatJobType, formatSalaryRange, relativeTime } from '../lib/format';
@@ -87,12 +89,15 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-50 pt-24 pb-16">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-          <aside className="w-full md:w-72 shrink-0 space-y-6">
-            <form onSubmit={applyFilters} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
-              <h3 className="font-semibold text-gray-900">Search & filters</h3>
+        <div className="flex flex-col xl:flex-row gap-8">
+          <aside className="w-full xl:w-80 shrink-0 space-y-6">
+            <form onSubmit={applyFilters} className="glass-card p-6 space-y-5">
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-indigo-600 font-semibold mb-2">Search & filters</p>
+                <p className="text-sm text-slate-500">Refine job matches with location, salary and experience.</p>
+              </div>
               <div>
                 <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Keywords</label>
                 <input
@@ -177,19 +182,24 @@ export default function JobsPage() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-brand-red text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-red-dark transition-colors"
+                className="w-full rounded-2xl bg-indigo-600 text-white py-3 text-sm font-semibold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/20"
               >
                 Apply filters
               </button>
             </form>
           </aside>
 
-          <main className="flex-1 min-w-0 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-2">
-              <h1 className="text-2xl font-bold text-gray-900">
-                {loading ? 'Searching…' : `${total} role${total === 1 ? '' : 's'} found`}
-              </h1>
-              <p className="text-sm text-gray-500">Showing approved listings on ITI Careers.</p>
+          <main className="flex-1 min-w-0 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4">
+              <div>
+                <h1 className="text-3xl font-bold text-slate-950">
+                  {loading ? 'Searching…' : `${total} role${total === 1 ? '' : 's'} found`}
+                </h1>
+                <p className="text-sm text-slate-500 mt-1">Showing approved listings on ITI Careers.</p>
+              </div>
+              <div className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
+                Page {page} of {lastPage}
+              </div>
             </div>
 
             {error && (
@@ -198,69 +208,36 @@ export default function JobsPage() {
 
             {loading && (
               <div className="flex justify-center py-20">
-                <div className="h-10 w-10 rounded-full border-2 border-brand-red border-t-transparent animate-spin" />
+                <div className="h-12 w-12 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin" />
               </div>
             )}
 
             {!loading &&
               items.map((job) => (
-                <Link
-                  to={`/jobs/${job.slug}`}
-                  key={job.id}
-                  className="block bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-brand-red/50 hover:shadow-md transition-all group"
-                >
-                  <div className="flex justify-between items-start gap-4 mb-3">
-                    <div className="flex items-start gap-4 min-w-0">
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500 text-xs font-bold shrink-0 overflow-hidden">
-                        {job.company?.logo_url ? (
-                          <img src={job.company.logo_url} alt="" className="w-full h-full object-cover" />
-                        ) : (
-                          job.company?.name?.slice(0, 2).toUpperCase() ?? 'Co'
-                        )}
-                      </div>
+                <Link to={`/jobs/${job.slug}`} key={job.id}>
+                  <GlassCard className="block p-6 rounded-[1.75rem] shadow-2xl border border-slate-200/60 hover:border-indigo-300/60 hover:shadow-2xl transform hover:-translate-y-1 transition-all mb-4 text-left">
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
                       <div className="min-w-0">
-                        <h2 className="font-bold text-lg text-gray-900 group-hover:text-brand-red transition-colors truncate">
-                          {job.title}
-                        </h2>
-                        <p className="text-gray-500 text-sm truncate">
-                          {job.company?.name} · {job.location}
-                        </p>
+                        <p className="font-semibold text-slate-950 text-lg truncate">{job.title}</p>
+                        <p className="text-slate-500 text-sm truncate">{job.company?.name} · {job.location}</p>
                       </div>
+                      <span className="text-indigo-600 font-semibold text-sm shrink-0">{formatSalaryRange(job.salary_min, job.salary_max, job.salary_currency)}</span>
                     </div>
-                    <span className="text-brand-red font-semibold text-sm shrink-0">
-                      {formatSalaryRange(job.salary_min, job.salary_max, job.salary_currency)}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs font-medium">
-                      {formatJobType(job.work_type, job.employment_type)}
-                    </span>
-                    {job.category?.name && (
-                      <span className="bg-sky-50 text-sky-800 px-3 py-1 rounded text-xs font-medium">
-                        {job.category.name}
-                      </span>
-                    )}
-                    {job.skills?.slice(0, 4).map((s) => (
-                      <span key={s} className="bg-gray-50 text-gray-600 px-2 py-1 rounded text-xs">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-between items-center text-sm text-gray-400">
-                    <span>Posted {relativeTime(job.created_at)}</span>
-                    <span className="uppercase text-[10px] tracking-wide text-emerald-700 font-semibold">
-                      {job.status}
-                    </span>
-                  </div>
+                    <div className="flex flex-wrap gap-2 text-xs">
+                      <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full">{formatJobType(job.work_type, job.employment_type)}</span>
+                      {job.category?.name && (
+                        <span className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full">{job.category.name}</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-4">Posted {relativeTime(job.created_at)}</p>
+                  </GlassCard>
                 </Link>
               ))}
 
             {!loading && items.length === 0 && !error && (
-              <div className="bg-white border border-gray-100 rounded-xl p-10 text-center text-gray-500 text-sm">
+              <GlassCard className="bg-white/90 border border-slate-200 p-10 rounded-[1.75rem] text-center text-slate-500 text-sm">
                 No jobs matched your filters. Try broadening workplace or location.
-              </div>
+              </GlassCard>
             )}
 
             {!loading && lastPage > 1 && (

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
+import { ThemeContext } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { getUnreadNotificationCount, getTotalUnreadMessages } from '../services/jobBoardApi';
 import { isFetchJsonFailure } from '../lib/api';
@@ -130,69 +131,84 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-brand-red flex items-center justify-center text-white font-black text-lg rounded-lg">
-          JW
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl shadow-sm shadow-slate-900/5">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white font-black flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            JW
           </div>
-          <span className="font-bold text-xl tracking-tight text-gray-900">Job Work</span>
+          <span className="text-lg font-extrabold tracking-tight text-slate-900">Job Work</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
           {user?.role === 'candidate' && (
-            <Link to="/jobs" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+            <Link to="/jobs" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors">
               Find Jobs
             </Link>
           )}
-          <Link to="/companies" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+          <Link to="/companies" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors">
             Companies
+          </Link>
+          <Link to="/style-guide" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors">
+            Style Guide
           </Link>
 
           {user ? (
             <div className="flex items-center gap-4">
               <Link
                 to="/notifications"
-                className="relative text-sm font-medium text-gray-600 hover:text-brand-red transition-colors"
+                className="relative text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors"
               >
                 Alerts
                 {badgeSpan(unreadAlerts)}
               </Link>
               <Link
                 to="/messages"
-                className="relative text-sm font-medium text-gray-600 hover:text-brand-red transition-colors"
+                className="relative text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors"
               >
                 Messages
                 {canMessage ? badgeSpan(unreadMessages) : null}
               </Link>
-              <Link to="/settings" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+              <Link to="/settings" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors">
                 Settings
               </Link>
               <Link
                 to={dashboardHref(user.role)}
-                className="flex items-center gap-2 group rounded-lg pr-2 hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-2 rounded-3xl border border-slate-200 bg-white px-2 py-1 hover:border-indigo-200 hover:shadow-sm transition-all"
               >
-                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-[10px] font-bold text-gray-600 group-hover:bg-brand-red group-hover:text-white transition-all">
+                <div className="w-9 h-9 bg-slate-100 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-700">
                   {initials(user.name)}
                 </div>
-                <span className="text-sm font-medium text-gray-800 max-w-[140px] truncate">{user.name}</span>
+                <span className="text-sm font-semibold text-slate-700 max-w-[140px] truncate">{user.name}</span>
               </Link>
               <button
                 type="button"
                 onClick={() => void handleLogout()}
-                className="text-sm font-medium text-gray-500 hover:text-brand-red transition-colors"
+                className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors"
               >
                 Log out
               </button>
+              <ThemeContext.Consumer>
+                {({ dark, toggleTheme }) => (
+                  <button
+                    type="button"
+                    onClick={toggleTheme}
+                    className="ml-2 p-2 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                    aria-label="Toggle dark mode"
+                  >
+                    {dark ? '☀️' : '🌙'}
+                  </button>
+                )}
+              </ThemeContext.Consumer>
             </div>
           ) : (
-            <div className="flex items-center gap-4">
-              <Link to="/login" className="text-sm font-medium text-gray-600 hover:text-brand-red transition-colors">
+            <div className="flex items-center gap-3">
+              <Link to="/login" className="text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors">
                 Log In
               </Link>
               <Link
                 to="/register"
-                className="bg-brand-red text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-red-dark active:bg-brand-red-active transition-all shadow-md shadow-brand-red/20"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 transition-all"
               >
                 Register
               </Link>

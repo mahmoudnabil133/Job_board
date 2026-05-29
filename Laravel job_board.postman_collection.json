@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "6a19b69e-0970-431b-89ff-81d6bc939739",
+    "_postman_id": "d14cd962-9811-474b-b2b4-b7dbd7a9dd01",
     "name": "Laravel job_board",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "43876755"
+    "_exporter_id": "34320045",
+    "_collection_link": "https://go.postman.co/collection/34320045-d14cd962-9811-474b-b2b4-b7dbd7a9dd01?source=collection_link"
   },
   "item": [
     {
@@ -20,7 +21,8 @@
                   "pm.environment.set(\"accessToken\", response.token);"
                 ],
                 "type": "text/javascript",
-                "packages": {}
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -35,7 +37,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\": \"hoda3\",\r\n    \"email\": \"hoda4@example.com\",\r\n    \"password\": \"password123\",\r\n    \"role\": \"employer\",\r\n    \"password_confirmation\": \"password123\"\r\n}",
+              "raw": "{\r\n    \"name\": \"hoda3\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"password123\",\r\n    \"role\": \"admin\",\r\n    \"password_confirmation\": \"password123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -230,7 +232,8 @@
                   "pm.environment.set(\"accessToken\", response.data.token);"
                 ],
                 "type": "text/javascript",
-                "packages": {}
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -239,7 +242,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"hoda1@example.com\",\r\n    \"password\": \"password123\"\r\n}",
+              "raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"password123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -439,7 +442,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"company_id\": 1,\r\n  \"category_id\": 1,\r\n  \"title\": \"Backend nodeejss Developerr\",\r\n  \"description\": \"Join our backend team to build robust APIs and microservices.\",\r\n  \"responsibilities\": \"- Design RESTful APIs\\n- Database optimization\\n- Write tests\",\r\n  \"requirements\": \"- 3+ years Laravel\\n- MySQL/PostgreSQL\\n- Redis experience\",\r\n  \"benefits\": \"- 20000-35000 EGP\\n- Hybrid work\\n- Health coverage\",\r\n  \"location\": \"Alexandria, Egypt\",\r\n  \"work_type\": \"hybrid\",\r\n  \"employment_type\": \"full_time\",\r\n  \"experience_level\": \"mid\",\r\n  \"salary_min\": 20000,\r\n  \"salary_max\": 35000,\r\n  \"salary_currency\": \"EGP\",\r\n  \"application_deadline\": \"2026-10-15\",\r\n  \"skill_ids\": [3, 5, 6],\r\n  \"questions\": [\r\n    {\r\n      \"question\": \"How many years of Laravel experience???aa\",\r\n      \"input_type\": \"text\",\r\n      \"is_required\": true\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"company_id\": 1,\r\n  \"category_id\": 1,\r\n  \"title\": \"Backend laravell2 Developerr\",\r\n  \"description\": \"Join our backend team to build robust APIs and microservices.\",\r\n  \"responsibilities\": \"- Design RESTful APIs\\n- Database optimization\\n- Write tests\",\r\n  \"requirements\": \"- 3+ years Laravel\\n- MySQL/PostgreSQL\\n- Redis experience\",\r\n  \"benefits\": \"- 20000-35000 EGP\\n- Hybrid work\\n- Health coverage\",\r\n  \"location\": \"Alexandria, Egypt\",\r\n  \"work_type\": \"hybrid\",\r\n  \"employment_type\": \"full_time\",\r\n  \"experience_level\": \"mid\",\r\n  \"salary_min\": 20000,\r\n  \"salary_max\": 35000,\r\n  \"salary_currency\": \"EGP\",\r\n  \"application_deadline\": \"2026-10-15\",\r\n  \"skill_ids\": [3, 5, 6],\r\n  \"questions\": [\r\n    {\r\n      \"question\": \"How many years of Laravel experience???aa\",\r\n      \"input_type\": \"text\",\r\n      \"is_required\": true\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -724,7 +727,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"company_id\": 1,\r\n  \"category_id\": 1,\r\n  \"title\": \"Backend nodejss\",\r\n  \"description\": \"Join our backend team to build robust APIs and microservices.\",\r\n  \"responsibilities\": \"- Design RESTful APIs\\n- Database optimization\\n- Write tests\",\r\n  \"requirements\": \"- 3+ years Laravel\\n- MySQL/PostgreSQL\\n- Redis experience\",\r\n  \"benefits\": \"- 20000-35000 EGP\\n- Hybrid work\\n- Health coverage\",\r\n  \"location\": \"Alexandria, Egypt\",\r\n  \"work_type\": \"hybrid\",\r\n  \"employment_type\": \"full_time\",\r\n  \"experience_level\": \"mid\",\r\n  \"salary_min\": 20000,\r\n  \"salary_max\": 35000,\r\n  \"salary_currency\": \"EGP\",\r\n  \"application_deadline\": \"2026-10-15\",\r\n  \"skill_ids\": [3, 5, 6],\r\n  \"questions\": [\r\n    {\r\n      \"question\": \"How many years of Laravel experience???aa\",\r\n      \"input_type\": \"text\",\r\n      \"is_required\": true\r\n    }\r\n  ]\r\n}",
+              "raw": "{\r\n  \"company_id\": 1,\r\n  \"category_id\": 1,\r\n  \"title\": \"Backend laravel\",\r\n  \"description\": \"Join our backend team to build robust APIs and microservices.\",\r\n  \"responsibilities\": \"- Design RESTful APIs\\n- Database optimization\\n- Write tests\",\r\n  \"requirements\": \"- 3+ years Laravel\\n- MySQL/PostgreSQL\\n- Redis experience\",\r\n  \"benefits\": \"- 20000-35000 EGP\\n- Hybrid work\\n- Health coverage\",\r\n  \"location\": \"Alexandria, Egypt\",\r\n  \"work_type\": \"hybrid\",\r\n  \"employment_type\": \"full_time\",\r\n  \"experience_level\": \"mid\",\r\n  \"salary_min\": 20000,\r\n  \"salary_max\": 35000,\r\n  \"salary_currency\": \"EGP\",\r\n  \"application_deadline\": \"2026-10-15\",\r\n  \"skill_ids\": [3, 5, 6],\r\n  \"questions\": [\r\n    {\r\n      \"question\": \"How many years of Laravel experience???aa\",\r\n      \"input_type\": \"text\",\r\n      \"is_required\": true\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -732,7 +735,7 @@
               }
             },
             "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/employer/jobs/25",
+              "raw": "http://127.0.0.1:8000/api/v1/employer/jobs/9",
               "protocol": "http",
               "host": [
                 "127",
@@ -746,7 +749,7 @@
                 "v1",
                 "employer",
                 "jobs",
-                "25"
+                "9"
               ]
             }
           },
@@ -974,6 +977,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"company_id\": 1,\r\n  \"category_id\": 1,\r\n  \"title\": \"Backend nodejss\",\r\n  \"description\": \"Join our backend team to build robust APIs and microservices.\",\r\n  \"responsibilities\": \"- Design RESTful APIs\\n- Database optimization\\n- Write tests\",\r\n  \"requirements\": \"- 3+ years Laravel\\n- MySQL/PostgreSQL\\n- Redis experience\",\r\n  \"benefits\": \"- 20000-35000 EGP\\n- Hybrid work\\n- Health coverage\",\r\n  \"location\": \"Alexandria, Egypt\",\r\n  \"work_type\": \"hybrid\",\r\n  \"employment_type\": \"full_time\",\r\n  \"experience_level\": \"mid\",\r\n  \"salary_min\": 20000,\r\n  \"salary_max\": 35000,\r\n  \"salary_currency\": \"EGP\",\r\n  \"application_deadline\": \"2026-10-15\",\r\n  \"skill_ids\": [3, 5, 6],\r\n  \"questions\": [\r\n    {\r\n      \"question\": \"How many years of Laravel experience???aa\",\r\n      \"input_type\": \"text\",\r\n      \"is_required\": true\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/employer/jobs",
                   "protocol": "http",
@@ -1238,6 +1250,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://localhost:8000/api/v1/jobs",
                   "protocol": "http",
@@ -1506,6 +1527,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://localhost:8000/api/v1/jobs/senior-laravel-developer",
                   "protocol": "http",
@@ -1624,6 +1654,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://localhost:8000/api/v1/admin/jobs/pending",
                   "protocol": "http",
@@ -1691,6 +1730,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://localhost:8000/api/v1/admin/jobs/pending",
                   "protocol": "http",
@@ -1780,7 +1828,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8000/api/v1/admin/jobs/26/approve",
+              "raw": "http://localhost:8000/api/v1/admin/jobs/9/approve",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1791,7 +1839,7 @@
                 "v1",
                 "admin",
                 "jobs",
-                "26",
+                "9",
                 "approve"
               ]
             }
@@ -2435,6 +2483,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/employer/company",
                   "protocol": "http",
@@ -3376,6 +3433,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/candidate/jobs/13/saved",
                   "protocol": "http",
@@ -3502,6 +3568,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/admin/categories",
                   "protocol": "http",
@@ -3874,6 +3949,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"app Development\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/admin/categories/10",
                   "protocol": "http",
@@ -4055,6 +4139,1321 @@
               ],
               "cookie": [],
               "body": "{\n    \"status\": \"success\",\n    \"message\": \"Category deleted successfully\",\n    \"data\": null\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Admin",
+          "item": [
+            {
+              "name": "stats",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/stats",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "stats"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/stats",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "stats"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:35:54 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "3d2637b2-e49b-44d3-b421-fb4766087dda"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Admin dashboard stats retrieved successfully\",\n    \"data\": {\n        \"total_users\": 16,\n        \"total_employers\": 6,\n        \"total_candidates\": 8,\n        \"total_admins\": 2,\n        \"total_jobs\": 9,\n        \"pending_jobs\": 2,\n        \"approved_jobs\": 7,\n        \"rejected_jobs\": 0,\n        \"total_applications\": 21,\n        \"total_companies\": 3,\n        \"new_users_this_week\": 16,\n        \"new_jobs_this_week\": 9,\n        \"new_apps_this_week\": 21,\n        \"application_statuses\": {\n            \"accepted\": 6,\n            \"pending\": 8,\n            \"shortlisted\": 4,\n            \"rejected\": 3\n        }\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Registeration over time",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/registrations-over-time?period=30d",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "registrations-over-time"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "30d"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/registrations-over-time?period=30d",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "registrations-over-time"
+                      ],
+                      "query": [
+                        {
+                          "key": "period",
+                          "value": "30d"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:37:56 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "816b5c7e-326c-4c49-ba3c-4fd5e83d40fc"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Registrations over time retrieved successfully\",\n    \"data\": [\n        {\n            \"date\": \"2026-04-17\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-18\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-19\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-20\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-21\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-22\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-23\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-24\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-25\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-26\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-27\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-28\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-29\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-30\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-01\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-02\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-03\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-04\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-05\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-06\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-07\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-08\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-09\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-10\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-11\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-12\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-13\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-14\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-15\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-16\",\n            \"count\": 16\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "jops over time",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/jobs-over-time?period=30d",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "jobs-over-time"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "30d"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/jobs-over-time?period=30d",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "jobs-over-time"
+                      ],
+                      "query": [
+                        {
+                          "key": "period",
+                          "value": "30d"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:39:59 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "28c2945f-4a50-40bb-b4e0-bd77e7b379e0"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Jobs over time retrieved successfully\",\n    \"data\": [\n        {\n            \"date\": \"2026-04-17\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-18\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-19\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-20\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-21\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-22\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-23\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-24\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-25\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-26\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-27\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-28\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-29\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-30\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-01\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-02\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-03\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-04\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-05\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-06\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-07\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-08\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-09\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-10\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-11\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-12\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-13\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-14\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-15\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-16\",\n            \"count\": 9\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "applications over time",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/applications-over-time?period=30d",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "applications-over-time"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "30d"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/applications-over-time?period=30d",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "applications-over-time"
+                      ],
+                      "query": [
+                        {
+                          "key": "period",
+                          "value": "30d"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:41:15 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "f42b36d5-9a71-4122-90e9-2c8a798e67e9"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Applications over time retrieved successfully\",\n    \"data\": [\n        {\n            \"date\": \"2026-04-17\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-18\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-19\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-20\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-21\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-22\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-23\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-24\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-25\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-26\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-27\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-28\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-29\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-30\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-01\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-02\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-03\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-04\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-05\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-06\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-07\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-08\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-09\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-10\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-11\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-12\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-13\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-14\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-15\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-16\",\n            \"count\": 21\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "users by role",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/users-by-role",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "users-by-role"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/users-by-role",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "users-by-role"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:42:30 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "383aa07f-923e-4903-ae25-8708efed263a"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Users by role retrieved successfully\",\n    \"data\": [\n        {\n            \"role\": \"admin\",\n            \"count\": 2\n        },\n        {\n            \"role\": \"employer\",\n            \"count\": 6\n        },\n        {\n            \"role\": \"candidate\",\n            \"count\": 8\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "jops by status",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/jobs-by-status",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "jobs-by-status"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/jobs-by-status",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "jobs-by-status"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:43:34 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "3f926aca-ba83-4f38-8df8-92c6ac037267"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Jobs by status retrieved successfully\",\n    \"data\": [\n        {\n            \"status\": \"approved\",\n            \"count\": 7\n        },\n        {\n            \"status\": \"pending\",\n            \"count\": 2\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "top categories",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/admin/dashboard/top-categories",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "dashboard",
+                    "top-categories"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/admin/dashboard/top-categories",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "admin",
+                        "dashboard",
+                        "top-categories"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:44:21 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "92372657-5513-4af5-8de2-5effd54f3659"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Top categories retrieved successfully\",\n    \"data\": [\n        {\n            \"name\": \"Software Development\",\n            \"count\": 3\n        },\n        {\n            \"name\": \"Design\",\n            \"count\": 1\n        },\n        {\n            \"name\": \"Sales\",\n            \"count\": 1\n        },\n        {\n            \"name\": \"Human Resources\",\n            \"count\": 1\n        },\n        {\n            \"name\": \"Finance\",\n            \"count\": 1\n        }\n    ]\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Employer",
+          "item": [
+            {
+              "name": "top jobs",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/employer/dashboard/top-jobs",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "employer",
+                    "dashboard",
+                    "top-jobs"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/employer/dashboard/top-jobs",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "employer",
+                        "dashboard",
+                        "top-jobs"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:34:42 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "74ad9da5-f8a4-46e7-84bd-ac984fdde625"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Top jobs retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 8,\n            \"title\": \"Backend nodejss\",\n            \"status\": \"approved\",\n            \"applications_count\": 1\n        },\n        {\n            \"id\": 9,\n            \"title\": \"Backend laravel\",\n            \"status\": \"approved\",\n            \"applications_count\": 1\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Application over time",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/employer/dashboard/applications-over-time?period=7d",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "employer",
+                    "dashboard",
+                    "applications-over-time"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "7d"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/employer/dashboard/applications-over-time?period=7d",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "employer",
+                        "dashboard",
+                        "applications-over-time"
+                      ],
+                      "query": [
+                        {
+                          "key": "period",
+                          "value": "7d"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:34:06 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "020ca245-b089-465f-b03c-1e9ee152f482"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Applications over time retrieved successfully\",\n    \"data\": [\n        {\n            \"date\": \"2026-05-10\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-11\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-12\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-13\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-14\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-15\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-16\",\n            \"count\": 2\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "stats",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/employer/dashboard/stats",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "employer",
+                    "dashboard",
+                    "stats"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/employer/dashboard/stats",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "employer",
+                        "dashboard",
+                        "stats"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:33:19 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "28258242-d8cf-4b0a-b0c8-e7056dc8fac2"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Dashboard stats retrieved successfully\",\n    \"data\": {\n        \"total_jobs\": 2,\n        \"active_jobs\": 2,\n        \"pending_jobs\": 0,\n        \"rejected_jobs\": 0,\n        \"total_applications\": 2,\n        \"status_breakdown\": {\n            \"accepted\": 1,\n            \"pending\": 1\n        },\n        \"jobs_by_work_type\": [\n            {\n                \"type\": \"hybrid\",\n                \"count\": 2\n            }\n        ],\n        \"recent_applications\": [\n            {\n                \"id\": 21,\n                \"job_title\": \"Backend laravel\",\n                \"candidate\": \"hoda3\",\n                \"status\": \"pending\",\n                \"created_at\": \"2026-05-16T20:26:06+00:00\"\n            },\n            {\n                \"id\": 20,\n                \"job_title\": \"Backend nodejss\",\n                \"candidate\": \"hoda3\",\n                \"status\": \"accepted\",\n                \"created_at\": \"2026-05-16T20:13:48+00:00\"\n            }\n        ]\n    }\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Candidate",
+          "item": [
+            {
+              "name": "stats",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/candidate/dashboard/stats",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "candidate",
+                    "dashboard",
+                    "stats"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/candidate/dashboard/stats",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "candidate",
+                        "dashboard",
+                        "stats"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:30:15 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "0bd366b7-6b23-4380-aba5-d6c804de91f7"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Dashboard stats retrieved successfully\",\n    \"data\": {\n        \"total_applications\": 2,\n        \"status_breakdown\": {\n            \"accepted\": 1,\n            \"pending\": 1\n        },\n        \"status_chart\": [\n            {\n                \"status\": \"pending\",\n                \"count\": 1\n            },\n            {\n                \"status\": \"accepted\",\n                \"count\": 1\n            }\n        ],\n        \"saved_jobs_count\": 0,\n        \"profile_complete\": false,\n        \"recent_applications\": [\n            {\n                \"id\": 21,\n                \"job_title\": \"Backend laravel\",\n                \"job_slug\": \"backend-laravell2-developerr\",\n                \"company\": \"—\",\n                \"status\": \"pending\",\n                \"created_at\": \"2026-05-16T20:26:06+00:00\"\n            },\n            {\n                \"id\": 20,\n                \"job_title\": \"Backend nodejss\",\n                \"job_slug\": \"backend-laravell-developerr\",\n                \"company\": \"—\",\n                \"status\": \"accepted\",\n                \"created_at\": \"2026-05-16T20:13:48+00:00\"\n            }\n        ]\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Application over time",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/candidate/dashboard/applications-over-time?period=30d",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "candidate",
+                    "dashboard",
+                    "applications-over-time"
+                  ],
+                  "query": [
+                    {
+                      "key": "period",
+                      "value": "30d"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/candidate/dashboard/applications-over-time?period=30d",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "candidate",
+                        "dashboard",
+                        "applications-over-time"
+                      ],
+                      "query": [
+                        {
+                          "key": "period",
+                          "value": "30d"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:31:29 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "702ab84e-6eae-466a-bf9b-c4251d76cc78"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Applications over time retrieved successfully\",\n    \"data\": [\n        {\n            \"date\": \"2026-04-17\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-18\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-19\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-20\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-21\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-22\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-23\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-24\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-25\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-26\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-27\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-28\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-29\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-04-30\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-01\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-02\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-03\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-04\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-05\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-06\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-07\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-08\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-09\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-10\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-11\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-12\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-13\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-14\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-15\",\n            \"count\": 0\n        },\n        {\n            \"date\": \"2026-05-16\",\n            \"count\": 2\n        }\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "activity timeline",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8000/api/v1/candidate/dashboard/activity-timeline",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "candidate",
+                    "dashboard",
+                    "activity-timeline"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "success",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8000/api/v1/candidate/dashboard/activity-timeline",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8000",
+                      "path": [
+                        "api",
+                        "v1",
+                        "candidate",
+                        "dashboard",
+                        "activity-timeline"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "localhost:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.4.21"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 16 May 2026 20:31:43 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "X-Correlation-ID",
+                      "value": "4394b403-9889-4b28-a857-2bc744c87b20"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Activity timeline retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 83,\n            \"action\": \"application_submitted\",\n            \"description\": \"Candidate 14 submitted an application for job 9.\",\n            \"created_at\": \"2026-05-16T20:26:06+00:00\"\n        },\n        {\n            \"id\": 78,\n            \"action\": \"application_submitted\",\n            \"description\": \"Candidate 14 submitted an application for job 8.\",\n            \"created_at\": \"2026-05-16T20:13:48+00:00\"\n        }\n    ]\n}"
+                }
+              ]
             }
           ]
         }
@@ -4251,6 +5650,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/admin/skills",
                   "protocol": "http",
@@ -4371,6 +5779,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Acme Corpp2\",\r\n    \"description\": \"A global tech company\",\r\n    \"website\": \"https://acme.com\",\r\n    \"industry\": \"Technology\",\r\n    \"location\": \"San Francisco, CA\",\r\n    \"contact_email\": \"hr@acme.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/admin/skills/19",
                   "protocol": "http",
@@ -4751,6 +6168,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/admin/logs/activity-logs",
                   "protocol": "http",
@@ -4875,6 +6301,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Acme Corpp2\",\r\n    \"description\": \"A global tech company\",\r\n    \"website\": \"https://acme.com\",\r\n    \"industry\": \"Technology\",\r\n    \"location\": \"San Francisco, CA\",\r\n    \"contact_email\": \"hr@acme.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/logs/my-activity-logs",
                   "protocol": "http",
@@ -5378,6 +6813,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/candidate/profile",
                   "protocol": "http",
@@ -5501,6 +6945,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"headline\": \"Senior Full Stack Developer\",\r\n    \"bio\": \"Experienced developer with 5+ years in web technologies\",\r\n    \"location\": \"Cairo, Egypt\",\r\n    \"phone\": \"+201234567890\",\r\n    \"portfolio_url\": \"https://myportfolio.dev\",\r\n    \"linkedin_url\": \"https://linkedin.com/in/mycandidate\",\r\n    \"years_of_experience\": 5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/notifications",
                   "protocol": "http",
@@ -5623,6 +7076,15 @@
                     "type": "text"
                   }
                 ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"headline\": \"Senior Frnot end  Developer\",\r\n    \"bio\": \"Experienced developer with 5+ years in web technologies\",\r\n    \"location\": \"Cairo, Egypt\",\r\n    \"phone\": \"+201234567890\",\r\n    \"portfolio_url\": \"https://myportfolio.dev\",\r\n    \"linkedin_url\": \"https://linkedin.com/in/mycandidate\",\r\n    \"years_of_experience\": 5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
                 "url": {
                   "raw": "http://127.0.0.1:8000/api/v1/notifications/unread-count",
                   "protocol": "http",
@@ -5974,7 +7436,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"job_id\": 21,\r\n    \"cover_letter\": \"I am very interested in this position. With 5 years of experience in Laravel and Vue.js, I believe I would be a great fit for your team.\",\r\n    \"resume_file\": \"resumes/john-doe-resume-2026.pdf\",\r\n    \"applicant_phone\": \"+201234567890\"\r\n}",
+                  "raw": "{\r\n    \"job_id\": 9,\r\n    \"cover_letter\": \"I am very interested in this position. With 5 years of experience in Laravel and Vue.js, I believe I would be a great fit for your team.\",\r\n    \"resume_file\": \"resumes/john-doe-resume-2026.pdf\",\r\n    \"applicant_phone\": \"+201234567890\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -6139,6 +7601,15 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
                     "url": {
                       "raw": "http://127.0.0.1:8000/api/v1/candidate/applications",
                       "protocol": "http",
@@ -6259,6 +7730,15 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"headline\": \"Senior Frnot end  Developer\",\r\n    \"bio\": \"Experienced developer with 5+ years in web technologies\",\r\n    \"location\": \"Cairo, Egypt\",\r\n    \"phone\": \"+201234567890\",\r\n    \"portfolio_url\": \"https://myportfolio.dev\",\r\n    \"linkedin_url\": \"https://linkedin.com/in/mycandidate\",\r\n    \"years_of_experience\": 5\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
                     "url": {
                       "raw": "http://127.0.0.1:8000/api/v1/candidate/applications/24",
                       "protocol": "http",
@@ -6347,7 +7827,7 @@
                   }
                 },
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/v1/candidate/applications/28/withdraw",
+                  "raw": "http://127.0.0.1:8000/api/v1/candidate/applications/8/withdraw",
                   "protocol": "http",
                   "host": [
                     "127",
@@ -6361,7 +7841,7 @@
                     "v1",
                     "candidate",
                     "applications",
-                    "28",
+                    "8",
                     "withdraw"
                   ]
                 }
@@ -6451,131 +7931,6 @@
           "name": "employer",
           "item": [
             {
-              "name": "submit application",
-              "request": {
-                "auth": {
-                  "type": "bearer",
-                  "bearer": [
-                    {
-                      "key": "token",
-                      "value": "{{accessToken}}",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n    \"headline\": \"Senior Full Stack Developer\",\r\n    \"bio\": \"Experienced developer with 5+ years in web technologies\",\r\n    \"location\": \"Cairo, Egypt\",\r\n    \"phone\": \"+201234567890\",\r\n    \"portfolio_url\": \"https://myportfolio.dev\",\r\n    \"linkedin_url\": \"https://linkedin.com/in/mycandidate\",\r\n    \"years_of_experience\": 5\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "http://127.0.0.1:8000/api/v1/candidate/profile",
-                  "protocol": "http",
-                  "host": [
-                    "127",
-                    "0",
-                    "0",
-                    "1"
-                  ],
-                  "port": "8000",
-                  "path": [
-                    "api",
-                    "v1",
-                    "candidate",
-                    "profile"
-                  ]
-                }
-              },
-              "response": [
-                {
-                  "name": "sumbit application",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Accept",
-                        "value": "application/json",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"job_id\": 1,\r\n    \"cover_letter\": \"I am very interested in this position. With 5 years of experience in Laravel and Vue.js, I believe I would be a great fit for your team.\",\r\n    \"resume_file\": \"resumes/john-doe-resume-2026.pdf\",\r\n    \"applicant_phone\": \"+201234567890\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "http://127.0.0.1:8000/api/v1/candidate/applications",
-                      "protocol": "http",
-                      "host": [
-                        "127",
-                        "0",
-                        "0",
-                        "1"
-                      ],
-                      "port": "8000",
-                      "path": [
-                        "api",
-                        "v1",
-                        "candidate",
-                        "applications"
-                      ]
-                    }
-                  },
-                  "status": "Created",
-                  "code": 201,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Host",
-                      "value": "127.0.0.1:8000"
-                    },
-                    {
-                      "key": "Connection",
-                      "value": "close"
-                    },
-                    {
-                      "key": "X-Powered-By",
-                      "value": "PHP/8.5.3"
-                    },
-                    {
-                      "key": "Cache-Control",
-                      "value": "no-cache, private"
-                    },
-                    {
-                      "key": "Date",
-                      "value": "Mon, 11 May 2026 13:37:41 GMT"
-                    },
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    },
-                    {
-                      "key": "Access-Control-Allow-Origin",
-                      "value": "*"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n    \"status\": \"success\",\n    \"message\": \"Application submitted successfully.\",\n    \"data\": {\n        \"id\": 24,\n        \"job_id\": 1,\n        \"candidate_id\": 11,\n        \"resume_file\": \"resumes/john-doe-resume-2026.pdf\",\n        \"cover_letter\": \"I am very interested in this position. With 5 years of experience in Laravel and Vue.js, I believe I would be a great fit for your team.\",\n        \"applicant_name\": \"hoda\",\n        \"applicant_email\": \"hoda1@example.com\",\n        \"applicant_phone\": \"+201234567890\",\n        \"application_status\": \"pending\",\n        \"employer_notes\": null,\n        \"reviewed_at\": null,\n        \"created_at\": \"2026-05-11T13:37:41+00:00\",\n        \"updated_at\": \"2026-05-11T13:37:41+00:00\",\n        \"job\": {\n            \"id\": 1,\n            \"title\": \"Senior Laravel Developer\",\n            \"company\": \"Tech Corp\",\n            \"location\": \"Remote\",\n            \"work_type\": \"remote\"\n        },\n        \"answers\": []\n    }\n}"
-                }
-              ]
-            },
-            {
               "name": "get applications",
               "protocolProfileBehavior": {
                 "disableBodyPruning": true
@@ -6638,6 +7993,15 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
                     "url": {
                       "raw": "http://127.0.0.1:8000/api/v1/employer/applications",
                       "protocol": "http",
@@ -6759,6 +8123,15 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"headline\": \"Senior Frnot end  Developer\",\r\n    \"bio\": \"Experienced developer with 5+ years in web technologies\",\r\n    \"location\": \"Cairo, Egypt\",\r\n    \"phone\": \"+201234567890\",\r\n    \"portfolio_url\": \"https://myportfolio.dev\",\r\n    \"linkedin_url\": \"https://linkedin.com/in/mycandidate\",\r\n    \"years_of_experience\": 5\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
                     "url": {
                       "raw": "http://127.0.0.1:8000/api/v1/candidate/applications/24",
                       "protocol": "http",
@@ -6880,6 +8253,15 @@
                         "type": "text"
                       }
                     ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"headline\": \"Senior Frnot end  Developer\",\r\n    \"bio\": \"Experienced developer with 5+ years in web technologies\",\r\n    \"location\": \"Cairo, Egypt\",\r\n    \"phone\": \"+201234567890\",\r\n    \"portfolio_url\": \"https://myportfolio.dev\",\r\n    \"linkedin_url\": \"https://linkedin.com/in/mycandidate\",\r\n    \"years_of_experience\": 5\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
                     "url": {
                       "raw": "http://127.0.0.1:8000/api/v1/employer/applications/27",
                       "protocol": "http",
@@ -6960,7 +8342,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"application_status\": \"shortlisted\",\r\n    \"employer_notes\": \"Impressive experience with Laravel. Moving to technical interview.\"\r\n}",
+                  "raw": "{\r\n    \"application_status\": \"accepted\",\r\n    \"employer_notes\": \"Impressive experience with Laravel. Moving to technical interview.\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -6968,7 +8350,7 @@
                   }
                 },
                 "url": {
-                  "raw": "http://127.0.0.1:8000/api/v1/employer/applications/27/status",
+                  "raw": "http://127.0.0.1:8000/api/v1/employer/applications/20/status",
                   "protocol": "http",
                   "host": [
                     "127",
@@ -6982,7 +8364,7 @@
                     "v1",
                     "employer",
                     "applications",
-                    "27",
+                    "20",
                     "status"
                   ]
                 }
@@ -7069,699 +8451,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "Messaging",
-      "item": [
-        {
-          "name": "1 - Candidate: save messagingApplicationId",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
-                  "const json = pm.response.json();",
-                  "const rows = Array.isArray(json.data) ? json.data : ((json.data && json.data.data) ? json.data.data : []);",
-                  "pm.test(\"Success and list shape\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(rows).to.be.an(\"array\");",
-                  "});",
-                  "if (rows.length && rows[0].id) {",
-                  "  pm.environment.set(\"messagingApplicationId\", String(rows[0].id));",
-                  "  pm.test(\"Saved messagingApplicationId\", function () {",
-                  "    pm.expect(pm.environment.get(\"messagingApplicationId\")).to.be.a(\"string\");",
-                  "  });",
-                  "} else {",
-                  "  pm.test(\"Has at least one application (or set messagingApplicationId manually)\", function () {",
-                  "    pm.expect(rows.length, \"Apply to a job first\").to.be.above(0);",
-                  "  });",
-                  "}",
-                  "if (json.meta) {",
-                  "  pm.test(\"Pagination meta\", function () { pm.expect(json.meta).to.have.property(\"total\"); });",
-                  "}"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/candidate/applications",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "candidate",
-                "applications"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "1 - Employer: save messagingApplicationId",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
-                  "const json = pm.response.json();",
-                  "const rows = Array.isArray(json.data) ? json.data : ((json.data && json.data.data) ? json.data.data : []);",
-                  "pm.test(\"Success and list shape\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(rows).to.be.an(\"array\");",
-                  "});",
-                  "if (rows.length && rows[0].id) {",
-                  "  pm.environment.set(\"messagingApplicationId\", String(rows[0].id));",
-                  "  pm.test(\"Saved messagingApplicationId\", function () {",
-                  "    pm.expect(pm.environment.get(\"messagingApplicationId\")).to.be.a(\"string\");",
-                  "  });",
-                  "} else {",
-                  "  pm.test(\"Has at least one application\", function () {",
-                  "    pm.expect(rows.length, \"Need applications on employer jobs\").to.be.above(0);",
-                  "  });",
-                  "}",
-                  "if (json.meta) {",
-                  "  pm.test(\"Pagination meta\", function () { pm.expect(json.meta).to.have.property(\"total\"); });",
-                  "}"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/employer/applications",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "employer",
-                "applications"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List conversations (inbox)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
-                  "const json = pm.response.json();",
-                  "const rows = Array.isArray(json.data) ? json.data : ((json.data && json.data.data) ? json.data.data : []);",
-                  "pm.test(\"Success payload\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(rows).to.be.an(\"array\");",
-                  "});",
-                  "if (rows.length > 0 && rows[0].id) {",
-                  "  pm.environment.set(\"messagingConversationId\", String(rows[0].id));",
-                  "  pm.test(\"Conversation row shape\", function () {",
-                  "    pm.expect(rows[0]).to.have.property(\"application_id\");",
-                  "  });",
-                  "}",
-                  "if (json.meta) {",
-                  "  pm.test(\"Pagination meta\", function () { pm.expect(json.meta).to.have.property(\"total\"); });",
-                  "}"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/conversations",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "conversations"
-              ]
-            },
-            "description": "Requires candidate or employer login. Saves first conversation id to env `messagingConversationId` when present."
-          },
-          "response": []
-        },
-        {
-          "name": "List messages by application",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
-                  "const json = pm.response.json();",
-                  "const rows = Array.isArray(json.data) ? json.data : ((json.data && json.data.data) ? json.data.data : []);",
-                  "pm.test(\"Messages list\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(rows).to.be.an(\"array\");",
-                  "});",
-                  "if (json.meta) {",
-                  "  pm.test(\"Pagination meta\", function () { pm.expect(json.meta).to.have.property(\"per_page\"); });",
-                  "}",
-                  "rows.forEach(function (m, i) {",
-                  "  pm.test(\"Message \" + i + \" has body and sender\", function () {",
-                  "    pm.expect(m).to.have.property(\"body\");",
-                  "    pm.expect(m).to.have.property(\"sender\");",
-                  "  });",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/applications/{{messagingApplicationId}}/messages",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "applications",
-                "{{messagingApplicationId}}",
-                "messages"
-              ]
-            },
-            "description": "Set environment variable `messagingApplicationId` (e.g. from Application → get applications). Same user must own the application."
-          },
-          "response": []
-        },
-        {
-          "name": "Send message by application",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
-                  "const json = pm.response.json();",
-                  "pm.test(\"Message created\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(json.data).to.be.an(\"object\");",
-                  "  pm.expect(json.data.body).to.be.a(\"string\");",
-                  "  pm.expect(json.data).to.have.property(\"conversation_id\");",
-                  "  pm.expect(json.data).to.have.property(\"sender\");",
-                  "});",
-                  "if (json.data && json.data.conversation_id) {",
-                  "  pm.environment.set(\"messagingConversationId\", String(json.data.conversation_id));",
-                  "}"
-                ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "3|Eqffxcd1poC3wj8gbqT7POlLg6r1bCvM6g6XBh7d6b80c9a1",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"body\": \"Hello — testing employer/candidate messaging from Postman.\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/applications/{{messagingApplicationId}}/messages",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "applications",
-                "{{messagingApplicationId}}",
-                "messages"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "List messages by conversation",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
-                  "const json = pm.response.json();",
-                  "const rows = Array.isArray(json.data) ? json.data : ((json.data && json.data.data) ? json.data.data : []);",
-                  "pm.test(\"Success\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(rows).to.be.an(\"array\");",
-                  "});",
-                  "if (json.meta) {",
-                  "  pm.test(\"Meta\", function () { pm.expect(json.meta).to.have.property(\"current_page\"); });",
-                  "}"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/conversations/{{messagingConversationId}}/messages",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "conversations",
-                "{{messagingConversationId}}",
-                "messages"
-              ]
-            },
-            "description": "Uses `messagingConversationId` from List conversations or after first send."
-          },
-          "response": []
-        },
-        {
-          "name": "Send message by conversation",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
-                  "const json = pm.response.json();",
-                  "pm.test(\"Body echoed\", function () {",
-                  "  pm.expect(json.data).to.have.property(\"body\");",
-                  "  pm.expect(json.data).to.have.property(\"conversation_id\");",
-                  "  pm.expect(json.data.sender).to.be.an(\"object\");",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"body\": \"Follow-up from Postman (by conversation id).\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/conversations/{{messagingConversationId}}/messages",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "conversations",
-                "{{messagingConversationId}}",
-                "messages"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Mark conversation as read",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
-                  "const json = pm.response.json();",
-                  "pm.test(\"Marked read payload\", function () {",
-                  "  pm.expect(json.status).to.eql(\"success\");",
-                  "  pm.expect(json.data).to.have.property(\"marked_read\");",
-                  "  pm.expect(json.data.marked_read).to.be.a(\"number\");",
-                  "  pm.expect(json.data.marked_read).to.be.at.least(0);",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/conversations/{{messagingConversationId}}/read",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "conversations",
-                "{{messagingConversationId}}",
-                "read"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Send message — validation error (422)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 422\", function () { pm.response.to.have.status(422); });",
-                  "const json = pm.response.json();",
-                  "pm.test(\"Validation error shape\", function () {",
-                  "  pm.expect(json.status === \"error\" || json.success === false).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{accessToken}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/applications/{{messagingApplicationId}}/messages",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "applications",
-                "{{messagingApplicationId}}",
-                "messages"
-              ]
-            },
-            "description": "Missing `body` should fail validation."
-          },
-          "response": []
-        },
-        {
-          "name": "401 — list messages without token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });",
-                  "const json = pm.response.json();",
-                  "pm.test(\"Unauthenticated message\", function () {",
-                  "  const msg = (json.message || \"\").toLowerCase();",
-                  "  pm.expect(msg.includes(\"unauth\") || json.success === false).to.be.true;",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/v1/applications/1/messages",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "v1",
-                "applications",
-                "1",
-                "messages"
-              ]
-            },
-            "description": "No Authorization header — expects 401."
-          },
-          "response": []
-        }
-      ],
-      "description": "Prerequisites: run **auth → login** so `accessToken` is set on your Postman environment.\n\n1. Run **1 - Candidate** or **1 - Employer** once to set `messagingApplicationId` from your first application (or set it manually).\n2. Run **Send message by application** to open a thread; `messagingConversationId` is saved from the response.\n3. Run inbox / by-conversation / mark-read as needed.\n\nNegative checks: **401 without token** and **422 validation**."
     }
   ]
 }

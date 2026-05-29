@@ -9,6 +9,7 @@ import {
   getSavedJobs,
   updateCandidateProfile,
 } from '../services/jobBoardApi';
+import { GlassCard } from '../components/GlassCard';
 import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
 import type { ApiApplicationListItem, ApiCandidateProfile, ApiSavedJobRow } from '../types/api';
 import { relativeTime } from '../lib/format';
@@ -150,7 +151,7 @@ export default function CandidateDashboard() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <aside className="md:col-span-1 space-y-6">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+            <GlassCard className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
               <div className="w-24 h-24 bg-brand-red/10 rounded-full mx-auto mb-4 flex items-center justify-center text-brand-red text-2xl font-bold">
                 {user?.name
                   ?.split(/\s+/)
@@ -165,7 +166,7 @@ export default function CandidateDashboard() {
               <Link to="/jobs" className="text-xs font-semibold text-brand-red hover:underline">
                 Browse open roles
               </Link>
-            </div>
+            </GlassCard>
 
             <nav className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden space-y-1 p-2">
               {tabBtn('overview', 'Dashboard')}
@@ -381,20 +382,22 @@ export default function CandidateDashboard() {
                 </div>
                 <ul className="divide-y divide-gray-100">
                   {saved.map((row) => (
-                    <li key={row.id} className="p-6 flex justify-between items-center gap-4">
-                      <div>
-                        <Link to={`/jobs/${row.job.slug}`} className="font-semibold text-gray-900 hover:text-brand-red">
-                          {row.job.title}
-                        </Link>
-                        <p className="text-xs text-gray-500">
-                          {row.job.company?.name} · {row.job.location}
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-400">{relativeTime(row.saved_at)}</span>
+                    <li key={row.id}>
+                      <GlassCard className="p-6 flex justify-between items-center gap-4">
+                        <div>
+                          <Link to={`/jobs/${row.job.slug}`} className="font-semibold text-gray-900 hover:text-brand-red">
+                            {row.job.title}
+                          </Link>
+                          <p className="text-xs text-gray-500">
+                            {row.job.company?.name} · {row.job.location}
+                          </p>
+                        </div>
+                        <span className="text-xs text-gray-400">{relativeTime(row.saved_at)}</span>
+                      </GlassCard>
                     </li>
                   ))}
                   {saved.length === 0 && (
-                    <li className="p-8 text-center text-sm text-gray-500">You have not saved any jobs.</li>
+                    <GlassCard className="p-8 text-center text-sm text-gray-500">You have not saved any jobs.</GlassCard>
                   )}
                 </ul>
               </section>

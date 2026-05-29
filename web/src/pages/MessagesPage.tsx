@@ -1,3 +1,4 @@
+import { GlassCard } from "../components/GlassCard";
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -216,7 +217,7 @@ export default function MessagesPage() {
             ) : (
               <ul className="divide-y divide-gray-100 max-h-[480px] overflow-y-auto">
                 {conversations.map((c) => (
-                  <li key={c.id}>
+                  <GlassCard key={c.id}>
                     <button
                       type="button"
                       onClick={() => selectConversation(c.id)}
@@ -232,10 +233,10 @@ export default function MessagesPage() {
                         </span>
                       )}
                     </button>
-                  </li>
+                  </GlassCard>
                 ))}
                 {conversations.length === 0 && (
-                  <li className="px-4 py-8 text-sm text-gray-500 text-center">No conversations yet.</li>
+                  <GlassCard className="px-4 py-8 text-sm text-gray-500 text-center">No conversations yet.</GlassCard>
                 )}
               </ul>
             )}

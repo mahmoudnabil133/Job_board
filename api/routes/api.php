@@ -18,6 +18,9 @@ use App\Http\Controllers\Api\V1\Admin\JobApprovalController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\ConversationController;
 use App\Http\Controllers\Api\V1\ApplicationMessageController;
+use App\Http\Controllers\Api\V1\Admin\AdminDashboardController;
+use App\Http\Controllers\Api\V1\Candidate\CandidateDashboardController;
+use App\Http\Controllers\Api\V1\Employer\EmployerDashboardController;
 
 /**
  * @OA\Info(
@@ -166,6 +169,10 @@ Route::prefix('v1/employer')->middleware('auth:sanctum')->group(function () {
     Route::get('jobs/{job}/applications', [ApplicationController::class, 'getJobApplications']);
     Route::get('applications/{application}', [ApplicationController::class, 'show']);
     Route::patch('applications/{application}/status', [ApplicationController::class, 'updateStatus']);
+    // Employer Dashboard routes
+    Route::get('dashboard/stats', [EmployerDashboardController::class, 'stats']);
+    Route::get('dashboard/applications-over-time', [EmployerDashboardController::class, 'applicationsOverTime']);
+    Route::get('dashboard/top-jobs', [EmployerDashboardController::class, 'topJobs']);
 
 });
 
@@ -184,6 +191,10 @@ Route::prefix('v1/candidate')->middleware('auth:sanctum')->group(function () {
     Route::get('applications/{application}', [ApplicationController::class, 'show']);
     Route::patch('applications/{application}/withdraw', [ApplicationController::class, 'withdraw']);
 
+    // Candidate Dashboard routes
+    Route::get('dashboard/stats', [CandidateDashboardController::class, 'stats']);
+    Route::get('dashboard/applications-over-time', [CandidateDashboardController::class, 'applicationsOverTime']);
+    Route::get('dashboard/activity-timeline', [CandidateDashboardController::class, 'activityTimeline']);
     // save job
     Route::get('saved-jobs', [SavedJobController::class, 'index']);
     Route::post('jobs/{job}/save', [SavedJobController::class, 'save']);
@@ -211,7 +222,14 @@ Route::prefix('v1/admin')->middleware(['auth:sanctum', \App\Http\Middleware\Ensu
     Route::apiResource('skills', SkillController::class);
 
     // Admin dashboard stats route
-    Route::get('logs/activity-logs', [ActivityLogController::class, 'index']);
+    // Admin Dashboard routes
+    Route::get('dashboard/stats', [AdminDashboardController::class, 'stats']);
+    Route::get('dashboard/registrations-over-time', [AdminDashboardController::class, 'registrationsOverTime']);
+    Route::get('dashboard/jobs-over-time', [AdminDashboardController::class, 'jobsOverTime']);
+    Route::get('dashboard/applications-over-time', [AdminDashboardController::class, 'applicationsOverTime']);
+    Route::get('dashboard/users-by-role', [AdminDashboardController::class, 'usersByRole']);
+    Route::get('dashboard/jobs-by-status', [AdminDashboardController::class, 'jobsByStatus']);
+    Route::get('dashboard/top-categories', [AdminDashboardController::class, 'topCategories']);
 
 
 });

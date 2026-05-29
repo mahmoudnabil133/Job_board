@@ -1,3 +1,4 @@
+import { GlassCard } from "../components/GlassCard";
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -116,14 +117,14 @@ export default function AccountSettingsPage() {
           {logsErr && <p className="text-sm text-red-700 mb-3">{logsErr}</p>}
           <ul className="divide-y divide-gray-100 border border-gray-100 rounded-lg overflow-hidden">
             {logs.map((row) => (
-              <li key={row.id} className="px-4 py-3 text-sm bg-white">
+              <GlassCard key={row.id} className="px-4 py-3 text-sm bg-white">
                 <p className="font-medium text-gray-900">{row.action}</p>
                 <p className="text-gray-600">{row.description}</p>
                 <p className="text-xs text-gray-400 mt-1">{new Date(row.created_at).toLocaleString()}</p>
-              </li>
+              </GlassCard>
             ))}
             {logs.length === 0 && !logsErr && (
-              <li className="px-4 py-6 text-sm text-gray-500 text-center">No activity entries yet.</li>
+              <GlassCard className="px-4 py-6 text-sm text-gray-500 text-center">No activity entries yet.</GlassCard>
             )}
           </ul>
         </section>

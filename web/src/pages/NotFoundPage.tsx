@@ -1,3 +1,4 @@
+import { GlassCard } from "../components/GlassCard";
 import { Link } from 'react-router-dom';
 import { MapPinOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';

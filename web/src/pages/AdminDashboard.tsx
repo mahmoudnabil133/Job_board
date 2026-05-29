@@ -14,6 +14,7 @@ import {
   updateAdminSkill,
 } from '../services/jobBoardApi';
 import { useAuth } from '../context/AuthContext';
+import { GlassCard } from '../components/GlassCard';
 import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
 import type { ApiActivityLog, ApiCategory, ApiJobDetail, ApiSkill } from '../types/api';
 
@@ -154,13 +155,11 @@ export default function AdminDashboard() {
         {!loading && tab === 'jobs' && (
           <section className="space-y-4">
             {pending.map((job) => (
-              <article key={job.id} className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
-                <div className="flex flex-col lg:flex-row lg:justify-between gap-4">
+              <GlassCard className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
+                <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                   <div>
                     <h2 className="font-bold text-lg text-gray-900">{job.title}</h2>
-                    <p className="text-sm text-gray-500 mt-1">
-                      {job.company?.name} · {job.location} · Employer #{job.employer_id}
-                    </p>
+                    <p className="text-sm text-gray-500 mt-1">{job.company?.name} · {job.location} · Employer #{job.employer_id}</p>
                     <p className="text-xs text-gray-400 mt-2 line-clamp-3">{job.description}</p>
                   </div>
                   <div className="flex gap-2 shrink-0">
@@ -182,7 +181,7 @@ export default function AdminDashboard() {
                     </button>
                   </div>
                 </div>
-              </article>
+              </GlassCard>
             ))}
             {pending.length === 0 && <p className="text-sm text-gray-500">No jobs awaiting approval.</p>}
           </section>
@@ -203,8 +202,8 @@ export default function AdminDashboard() {
             </form>
             <ul className="divide-y divide-gray-100 border border-gray-100 rounded-lg">
               {categories.map((c) => (
-                <li key={c.id} className="flex items-center justify-between px-4 py-2 text-sm">
-                  <span className="font-medium">{c.name}</span>
+                <GlassCard className="bg-white border border-gray-100 rounded-xl p-5 mb-3">
+                  <span className="font-medium text-gray-900">{c.name}</span>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -232,7 +231,7 @@ export default function AdminDashboard() {
                       Delete
                     </button>
                   </div>
-                </li>
+                </GlassCard>
               ))}
             </ul>
           </section>
@@ -253,8 +252,8 @@ export default function AdminDashboard() {
             </form>
             <ul className="divide-y divide-gray-100 border border-gray-100 rounded-lg">
               {skills.map((s) => (
-                <li key={s.id} className="flex items-center justify-between px-4 py-2 text-sm">
-                  <span className="font-medium">{s.name}</span>
+                <GlassCard className="bg-white border border-gray-100 rounded-xl p-5 mb-3">
+                  <span className="font-medium text-gray-900">{s.name}</span>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -282,7 +281,7 @@ export default function AdminDashboard() {
                       Delete
                     </button>
                   </div>
-                </li>
+                </GlassCard>
               ))}
             </ul>
           </section>
@@ -293,15 +292,15 @@ export default function AdminDashboard() {
             <div className="p-4 border-b border-gray-100 font-bold text-sm">Platform activity</div>
             <ul className="divide-y divide-gray-100 max-h-[480px] overflow-y-auto">
               {logs.map((row) => (
-                <li key={row.id} className="px-4 py-3 text-sm">
+                <GlassCard key={row.id} className="px-4 py-3 text-sm">
                   <p className="font-semibold text-gray-900">{row.action}</p>
                   <p className="text-gray-600">{row.description}</p>
                   <p className="text-xs text-gray-400 mt-1">
                     {row.user?.name} ({row.user?.role}) · {new Date(row.created_at).toLocaleString()}
                   </p>
-                </li>
+                </GlassCard>
               ))}
-              {logs.length === 0 && <li className="p-8 text-center text-gray-500 text-sm">No log entries.</li>}
+              {logs.length === 0 && <GlassCard className="p-8 text-center text-gray-500 text-sm">No log entries.</GlassCard>}
             </ul>
           </section>
         )}

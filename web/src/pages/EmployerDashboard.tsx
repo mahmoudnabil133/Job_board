@@ -15,6 +15,7 @@ import {
   updateEmployerCompany,
   updateEmployerJob,
 } from '../services/jobBoardApi';
+import { GlassCard } from '../components/GlassCard';
 import { flattenApiErrors, isFetchJsonFailure } from '../lib/api';
 import type { ApiApplicationListItem, ApiCompanyResource, ApiJobListItem } from '../types/api';
 import { formatJobType, relativeTime } from '../lib/format';
@@ -606,7 +607,7 @@ export default function EmployerDashboard() {
               </form>
             )}
 
-            <div className="bg-white border border-gray-100 rounded-xl divide-y divide-gray-100 shadow-sm">
+            <GlassCard className="bg-white border border-gray-100 rounded-xl divide-y divide-gray-100 shadow-sm">
               {jobs.map((j) => (
                 <div key={j.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div>
@@ -649,14 +650,14 @@ export default function EmployerDashboard() {
                 </div>
               ))}
               {jobs.length === 0 && <p className="p-8 text-center text-sm text-gray-500">No jobs yet.</p>}
-            </div>
+            </GlassCard>
 
             {selectedJobId && (
               <div className="bg-sky-50 border border-sky-100 rounded-xl p-4">
                 <h4 className="font-bold text-sm text-gray-900 mb-2">Applicants for job #{selectedJobId}</h4>
                 <ul className="space-y-2">
                   {jobApps.map((a) => (
-                    <li key={a.id} className="text-sm flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between bg-white rounded-lg border border-gray-100 px-3 py-2">
+                    <GlassCard key={a.id} className="text-sm flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between bg-white rounded-lg border border-gray-100 px-3 py-2">
                       <span>
                         {a.job.title} · <span className="text-gray-500">{a.application_status}</span>
                       </span>
@@ -682,7 +683,7 @@ export default function EmployerDashboard() {
                           <option value="rejected">Rejected</option>
                         </select>
                       </div>
-                    </li>
+                    </GlassCard>
                   ))}
                 </ul>
               </div>
@@ -695,7 +696,7 @@ export default function EmployerDashboard() {
             <div className="p-4 border-b border-gray-100 font-bold">All applications</div>
             <ul className="divide-y divide-gray-100">
               {applications.map((a) => (
-                <li key={a.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <GlassCard key={a.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <div>
                     <p className="font-semibold">{a.job.title}</p>
                     <p className="text-xs text-gray-500">
@@ -725,10 +726,10 @@ export default function EmployerDashboard() {
                       <option value="rejected">Rejected</option>
                     </select>
                   </div>
-                </li>
+                </GlassCard>
               ))}
               {applications.length === 0 && (
-                <li className="p-8 text-center text-sm text-gray-500">No applications yet.</li>
+                <GlassCard className="p-8 text-center text-sm text-gray-500">No applications yet.</GlassCard>
               )}
             </ul>
           </section>

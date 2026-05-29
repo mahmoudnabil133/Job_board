@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { GlassCard } from '../components/GlassCard';
 import { Link } from 'react-router-dom';
 import { getPublicJobs } from '../services/jobBoardApi';
 import { isFetchJsonFailure } from '../lib/api';
@@ -69,14 +70,13 @@ export default function CompaniesPage() {
           <ul className="space-y-3">
             {companies.map((c) => (
               <li key={c.id}>
-                <Link
-                  to={`/?q=${encodeURIComponent(c.name)}`}
-                  className="flex items-center justify-between bg-white border border-gray-100 rounded-xl px-5 py-4 shadow-sm hover:border-brand-red/40 transition-colors"
-                >
-                  <span className="font-semibold text-gray-900">{c.name}</span>
-                  <span className="text-sm text-gray-500">
-                    {c.count} open role{c.count === 1 ? '' : 's'}
-                  </span>
+                <Link to={`/?q=${encodeURIComponent(c.name)}`}>
+                  <GlassCard className="flex items-center justify-between p-5">
+                    <span className="font-semibold text-gray-900">{c.name}</span>
+                    <span className="text-sm text-gray-500">
+                      {c.count} open role{c.count === 1 ? '' : 's'}
+                    </span>
+                  </GlassCard>
                 </Link>
               </li>
             ))}

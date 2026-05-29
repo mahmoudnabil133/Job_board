@@ -1,3 +1,4 @@
+import { GlassCard } from "../components/GlassCard";
 import { Link } from 'react-router-dom';
 import { User, Building2 } from 'lucide-react';
 

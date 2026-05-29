@@ -5,9 +5,10 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
+import { ThemeProvider } from './context/ThemeContext';
 import RoleRoute from './components/RoleRoute';
 import MainLayout from './layouts/MainLayout';
+import ProtectedRoute from './components/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
 import JobsPage from './pages/JobsPage';
 import JobDetailsPage from './pages/JobDetailsPage';
@@ -23,11 +24,13 @@ import NotFoundPage from './pages/NotFoundPage';
 import NotificationsPage from './pages/NotificationsPage';
 import MessagesPage from './pages/MessagesPage';
 import AccountSettingsPage from './pages/AccountSettingsPage';
+import StyleGuidePage from './pages/StyleGuidePage';
 
 export default function App() {
   return (
     <Router>
-      <AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterHubPage />} />
@@ -38,6 +41,7 @@ export default function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/companies" element={<CompaniesPage />} />
+            <Route path="/style-guide" element={<StyleGuidePage />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/notifications" element={<NotificationsPage />} />
@@ -62,7 +66,8 @@ export default function App() {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }
