@@ -18,6 +18,9 @@ WORKDIR /var/www
 
 COPY . .
 
+RUN mkdir -p bootstrap/cache storage/framework/views storage/framework/cache storage/framework/sessions storage/logs && \
+    chmod -R 777 bootstrap/cache storage
+
 RUN composer install
 
 EXPOSE 8000
