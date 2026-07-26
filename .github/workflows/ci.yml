@@ -101,16 +101,46 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
+            # Ensure Docker is installed
+            if ! command -v docker &> /dev/null; then
+              sudo apt-get update -qq
+              sudo apt-get install -y -qq docker.io docker-compose-plugin
+              sudo usermod -aG docker ubuntu
+            fi
+
+            # Ensure repo exists
+            if [ ! -d "/opt/hireitian/.git" ]; then
+              sudo mkdir -p /opt/hireitian
+              sudo chown ubuntu:ubuntu /opt/hireitian
+              git clone https://github.com/${{ github.repository }}.git /opt/hireitian
+            fi
+
             cd /opt/hireitian
 
-            # Login to ghcr.io (using PAT with read:packages scope)
+            # Pull latest code
+            git fetch origin main
+            git checkout main
+            git pull origin main
+
+            # Create .env from example if not exists
+            if [ ! -f "api/.env" ]; then
+              cp api/.env.example api/.env
+              sed -i 's/DB_HOST=.*/DB_HOST=db/' api/.env
+              sed -i 's/DB_DATABASE=.*/DB_DATABASE=hireitian/' api/.env
+              sed -i 's/DB_USERNAME=.*/DB_USERNAME=hireitian/' api/.env
+              sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=secret/' api/.env
+              echo ">>> .env created with Docker defaults"
+            fi
+
+            # Login to ghcr.io
             echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            # Pull latest images
+            # Pull and start containers
             docker compose -f docker-compose.prod.yml pull
-
-            # Restart containers
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            # Generate app key if missing
+            docker compose -f docker-compose.prod.yml exec -T backend php artisan key:generate --force || true
 
             # Run migrations
             docker compose -f docker-compose.prod.yml exec -T backend php artisan migrate --force
