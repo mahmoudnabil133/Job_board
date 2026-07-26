@@ -1,0 +1,55 @@
+services:
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.prod
+    container_name: hireitian-api
+    restart: unless-stopped
+    env_file:
+      - ./api/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - hireitian
+
+  frontend:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile.prod
+    container_name: hireitian-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - hireitian
+
+  db:
+    image: mysql:8
+    container_name: hireitian-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-hireitian}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-hireitian}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hireitian
+
+volumes:
+  mysql_data:
+
+networks:
+  hireitian:
+    driver: bridge
