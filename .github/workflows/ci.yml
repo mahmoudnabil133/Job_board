@@ -179,7 +179,6 @@ jobs:
               APP_KEY="base64:$(openssl rand -base64 32)"
               printf 'APP_KEY=%s\n' "$APP_KEY" >> api/.env
             fi
-            fi
 
             # Login to ghcr.io
             echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
