@@ -101,6 +101,15 @@ jobs:
           username: ubuntu
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
+            # Add swap to prevent OOM on small instances
+            if [ "$(swapon --show | wc -l)" -eq 0 ]; then
+              sudo fallocate -l 1G /swapfile
+              sudo chmod 600 /swapfile
+              sudo mkswap /swapfile
+              sudo swapon /swapfile
+              echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+            fi
+
             # Ensure Docker is installed
             if ! command -v docker &> /dev/null; then
               sudo apt-get update -qq
@@ -186,9 +195,6 @@ jobs:
             # Pull and start containers
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
-
-            # Generate app key if missing
-            docker compose -f docker-compose.prod.yml exec -T backend php artisan key:generate --force || true
 
             # Run migrations
             docker compose -f docker-compose.prod.yml exec -T backend php artisan migrate --force

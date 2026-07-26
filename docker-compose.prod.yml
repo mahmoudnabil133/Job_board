@@ -7,11 +7,17 @@ services:
     restart: unless-stopped
     env_file:
       - ./api/.env
+    volumes:
+      - ./api/.env:/var/www/.env
     depends_on:
       db:
         condition: service_healthy
     networks:
       - hireitian
+    deploy:
+      resources:
+        limits:
+          memory: 256M
 
   frontend:
     build:
@@ -25,18 +31,34 @@ services:
       - backend
     networks:
       - hireitian
+    deploy:
+      resources:
+        limits:
+          memory: 128M
 
   db:
     image: mysql:8
     container_name: hireitian-db
     restart: unless-stopped
+    command:
+      - --max_allowed_packet=64M
+      - --innodb_buffer_pool_size=256M
+      - --innodb_log_buffer_size=16M
+      - --sort_buffer_size=2M
+      - --read_buffer_size=2M
+      - --read_rnd_buffer_size=1M
+      - --myisam_sort_buffer_size=32M
+      - --thread_cache_size=8
+      - --query_cache_type=0
+      - --tmp_table_size=32M
+      - --max_heap_table_size=32M
+      - --table_open_cache=400
+      - --performance_schema=OFF
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-hireitian}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
       MYSQL_USER: ${DB_USERNAME:-hireitian}
       MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -46,6 +68,10 @@ services:
       retries: 5
     networks:
       - hireitian
+    deploy:
+      resources:
+        limits:
+          memory: 512M
 
 volumes:
   mysql_data:
