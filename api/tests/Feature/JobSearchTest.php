@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('anyone can list approved jobs', function () {
+test('anyone can list the approved jobs', function () {
     $employer = User::factory()->create(['role' => 'employer']);
     $company = Company::factory()->create(['employer_id' => $employer->id]);
     $category = Category::create(['name' => 'IT', 'slug' => 'it']);
