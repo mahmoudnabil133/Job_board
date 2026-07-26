@@ -122,9 +122,13 @@ jobs:
             git checkout main
             git pull origin main
 
-            # Create .env from example if not exists
-            if [ ! -f "api/.env" ]; then
-              printf '%s\n' \
+            # Save existing APP_KEY if any
+            if [ -f "api/.env" ]; then
+              OLD_KEY=$(grep '^APP_KEY=' api/.env | head -1 | cut -d= -f2-)
+            fi
+
+            # Always write fresh .env (previous ones may be corrupted from failed deploys)
+            printf '%s\n' \
                 'APP_NAME=HireITIan' \
                 'APP_ENV=production' \
                 'APP_KEY=' \
@@ -167,9 +171,14 @@ jobs:
                 'AWS_BUCKET=' \
                 'AWS_USE_PATH_STYLE_ENDPOINT=false' \
                 > api/.env
+
+            # Restore previous APP_KEY or generate a new one
+            if [ -n "$OLD_KEY" ]; then
+              printf 'APP_KEY=%s\n' "$OLD_KEY" >> api/.env
+            else
               APP_KEY="base64:$(openssl rand -base64 32)"
               printf 'APP_KEY=%s\n' "$APP_KEY" >> api/.env
-              echo ">>> .env created with Docker defaults"
+            fi
             fi
 
             # Login to ghcr.io
