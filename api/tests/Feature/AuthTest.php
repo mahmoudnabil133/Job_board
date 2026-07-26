@@ -46,7 +46,7 @@ test('registration fails with duplicate email', function () {
     ]);
 
     $response->assertStatus(422)
-        ->assertJsonValidationErrors(['emails']);
+        ->assertJsonValidationErrors(['email']);
 });
 
 test('user can login with valid credentials', function () {
