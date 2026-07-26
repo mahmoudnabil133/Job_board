@@ -10,6 +10,7 @@ Homestead.yaml
 .env.backup
 .phpunit.result.cache
 
+CICD.md
 # React (inside web/)
 /web/node_modules
 /web/build

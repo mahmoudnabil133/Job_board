@@ -91,14 +91,14 @@ jobs:
       - name: Deploy to server
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
+          host: 3.90.150.15
+          username: ubuntu
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
             cd /opt/hireitian
 
-            # Login to ghcr.io
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            # Login to ghcr.io (using PAT with read:packages scope)
+            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             # Pull latest images
             docker compose -f docker-compose.prod.yml pull
