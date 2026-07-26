@@ -32,6 +32,12 @@ jobs:
         run: composer install --no-progress --prefer-dist
         working-directory: api
 
+      - name: Setup environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+        working-directory: api
+
       - name: Run tests
         run: php artisan test
         working-directory: api
